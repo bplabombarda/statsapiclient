@@ -1,7 +1,6 @@
 import json
 import requests
 
-from statsapiclient.constants import headers
 
 class StatsApiClient:
 	
