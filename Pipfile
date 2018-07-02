@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 requests = "*"
 maya = "*"
-click = "*"
 
 [dev-packages]
 
