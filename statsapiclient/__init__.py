@@ -30,9 +30,3 @@ class Client:
 
 	def fetch(self, path, params):
 		return self._request(path, params)
-
-
-class Schedule(Client):
-	_endpoint = 'api/v1/schedule'
-
-	def games_from_date()
