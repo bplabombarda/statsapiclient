@@ -10,16 +10,20 @@ class Schedule(Client):
 	def __init__(self):
 		return
 
+	def _handle_dates(self, response):
+		return response['dates']
+
 	def games_from_date(self, date):
 		self.params['startDate'] = date
 		self.params['endDate'] = date
 		
-		return self.fetch(self._endpoint, params=self.params)
+		response = self.fetch(self._endpoint, params=self.params)
+		return self._handle_dates(response)
 
 	def games_from_date_range(self, start_date, end_date):
 		self.params['startDate'] = start_date
 		self.params['endDate'] = end_date
 		
-		return self.fetch(self._endpoint, params=self.params)
-
+		response = self.fetch(self._endpoint, params=self.params)
+		return self._handle_dates(response)
 
