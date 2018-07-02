@@ -9,8 +9,8 @@ class Game(Client):
 
 	def play_by_play(self):
 		url = self._endpoint.format(game_pk=self.game_pk)
-		
 		response = self.fetch(url, params=None)
+
 		return response['liveData']['plays']
 
 	def boxscore(self):
