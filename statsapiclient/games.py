@@ -2,7 +2,7 @@ from statsapiclient import Client
 
 
 class Game(Client):
-	_endpoint = '/api/v1/game/{game_pk}/feed/live'
+	_endpoint = 'api/v1/game/{game_pk}/feed/live'
 
 	def __init__(self, game_pk):
 		self.game_pk = game_pk
@@ -15,6 +15,11 @@ class Game(Client):
 
 	def boxscore(self):
 		url = self._endpoint.format(game_pk=self.game_pk)
+<<<<<<< Updated upstream
 		
 		response = self.fetch(url, params=None)
+=======
+		response = self.fetch(url, params=None)
+
+>>>>>>> Stashed changes
 		return response['liveData']['boxscore']
