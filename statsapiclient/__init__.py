@@ -18,7 +18,7 @@ HEADERS = {
 
 	
 def _fetch_json(endpoint, params):
-	"""
+    """
     Helper method for json fetching.
     Args:
         endpoint (str): resource endpoint
@@ -70,6 +70,8 @@ class Schedule:
         away = game['linescore']['teams']['away']
         home = game['linescore']['teams']['home']
         result = {
+            'gamePk': game['gamePk'],
+            'gameDate': game['gameDate'],
             'away': {
                 'team': home['team']['name'],
                 'goals': home['goals'],
@@ -96,4 +98,3 @@ class Schedule:
     
     def get_results(self):
         return self._handle_results(self.json)
-

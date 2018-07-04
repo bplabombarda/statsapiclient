@@ -15,11 +15,6 @@ class Game(Client):
 
 	def boxscore(self):
 		url = self._endpoint.format(game_pk=self.game_pk)
-<<<<<<< Updated upstream
-		
-		response = self.fetch(url, params=None)
-=======
 		response = self.fetch(url, params=None)
 
->>>>>>> Stashed changes
 		return response['liveData']['boxscore']
