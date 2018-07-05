@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 requests = "*"
+jupyter = "*"
+jupyterthemes = "*"
 
 [dev-packages]
 
