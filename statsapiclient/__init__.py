@@ -56,9 +56,6 @@ class Schedule:
             self.params['endDate'] = self.end_date
         self.json = _fetch_json(endpoint=self._endpoint, params=self.params)
 
-    def _set_date_params(start, end):
-        return 
-
     def _handle_games(self, json):
         games = []
         for date in json['dates']:
@@ -66,35 +63,5 @@ class Schedule:
 
         return games
     
-    def _build_result(self, game):
-        away = game['linescore']['teams']['away']
-        home = game['linescore']['teams']['home']
-        result = {
-            'gamePk': game['gamePk'],
-            'gameDate': game['gameDate'],
-            'away': {
-                'team': home['team']['name'],
-                'goals': home['goals'],
-                'shots': home['shotsOnGoal']
-            },
-            'home': {
-                'team': away['team']['name'],
-                'goals': away['goals'],
-                'shots': away['shotsOnGoal']
-            }
-        }
-        
-        return result
-    
-    def _handle_results(self, json):
-        results = []
-        for date in json['dates']:
-            results += [self._build_result(game) for game in date['games']]
-            
-        return results
-
     def get_games(self):
         return self._handle_games(self.json)
-    
-    def get_results(self):
-        return self._handle_results(self.json)
