@@ -2,6 +2,11 @@ from statsapiclient import _fetch_json
 
 
 class Game:
+    """
+    A game object to access boxscore and play-by-play data
+    Args:
+        :game_pk: The primary key for the target game.
+    """
     _endpoint = 'api/v1/game/{game_pk}/feed/live'
     params = {}
 
