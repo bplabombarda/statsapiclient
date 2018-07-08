@@ -14,3 +14,7 @@ twine = "*"
 
 [requires]
 python_version = "3.7"
+
+[dev-packages.statsapiclient]
+editable = true
+path = "."
