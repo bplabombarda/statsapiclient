@@ -18,11 +18,8 @@ class Game:
                         endpoint=self.game_endpoint,
                         params=self.params)
 
-    def play_by_play(self):
-        return
-
-    def boxscore(self):
-        return
-    
-    def scoring_plays(self):
-        return
+    def _handle_game_data(self, json):
+        return json['gameData']
+        
+    def get_game_data(self):
+        return self._handle_game_data(self.json)

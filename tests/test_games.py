@@ -1,11 +1,13 @@
 import pytest
 
-from statsapiclient import Game
+from statsapiclient.games import Game
 
 
 g = Game(2017020123)
 
-def test_schedule():
-	teams = g['gameData']['teams']
+def test_game_data():
+	gd = g.get_game_data()
+	away = gd['teams']['away']
+	home = gd['teams']['home']
 
-	assert teams['away']['name'] == 'Los Angeles Kings'
+	assert away['id'] == 26 and home['id'] == 10
