@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "statsapiclient"
+version = "0.1.0"
+description = ""
+homepage="https://github.com/hockeymonkeys/statsapiclient"
+repository="git@github.com:hockeymonkeys/statsapiclient.git"
+documentation="https://github.com/hockeymonkeys/statsapiclient#README.rst"
+license="MPL-2.0"
+authors = ["Brett LaBombarda <bplabombarda@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.21"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
