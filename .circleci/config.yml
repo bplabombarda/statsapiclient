@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7.4-stretch
+
+    working_directory: ~/statsapiclient
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "poetry.lock" }}
+            - v1-dependencies-
+
+      - run:
+          name: install poetry
+          command: pip install poetry
+
+      - run:
+          name: install dependencies
+          command: poetry install
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "poetry.lock" }}
+
+      - run:
+          name: test
+          command: poetry run pytest
