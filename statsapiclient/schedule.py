@@ -17,14 +17,15 @@ class Schedule:
     def __init__(self, start_date, end_date=None):
         self.params["startDate"] = start_date
         self.params["endDate"] = end_date if end_date else start_date
-        self.json = fetch_json(endpoint=self.endpoint, params=self.params)
+        json = fetch_json(endpoint=self.endpoint, params=self.params)
+        self.dates = json["dates"]
 
-    def handle_games(self, json):
+    def games_from_dates(self, dates):
         games = []
-        for date in json["dates"]:
+        for date in dates:
             games += [game for game in date["games"]]
 
         return games
 
     def get_games(self):
-        return self.handle_games(self.json)
+        return self.games_from_dates(self.dates)
