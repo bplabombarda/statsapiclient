@@ -1,3 +1,4 @@
+from .line_score import LineScore
 from ..utils import fetch_json
 
 
@@ -8,17 +9,17 @@ class Game:
         :game_pk: The game primary key 
     """
 
-    _endpoint = "api/v1/game/{game_pk}/feed/live"
+    endpoint = "api/v1/game/{game_pk}/feed/live"
 
     def __init__(self, game_pk):
-        self.endpoint = _endpoint.format(game_pk)
-        self.json = fetch_json(endpoint=self.endpoint)
+        game_endpoint = self.endpoint.format(game_pk=game_pk)
+        self.json = fetch_json(endpoint=game_endpoint)
 
     def get_box_score(self):
-        return self.json["boxscore"]["plays"]
+        return self.json["liveData"]["boxscore"]
 
     def get_line_score(self):
-        return self.json["linescore"]["plays"]
+        return self.json["liveData"]["linescore"]
 
     def get_play_by_play(self):
         return self.json["liveData"]["plays"]

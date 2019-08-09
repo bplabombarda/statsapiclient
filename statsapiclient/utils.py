@@ -3,7 +3,7 @@ from requests import get
 from .constants import API_URL, HEADERS
 
 
-def fetch_json(endpoint, params):
+def fetch_json(endpoint, params=None):
     """
     Helper method for json fetching.
     Args:

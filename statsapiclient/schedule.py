@@ -1,3 +1,4 @@
+from .constants import SCHEDULE_PARAMS
 from .utils import fetch_json
 
 
@@ -10,8 +11,9 @@ class Schedule:
     """
 
     endpoint = "api/v1/schedule"
+
     params = {
-        "expand": "schedule.teams,schedule.linescore,schedule.decisions,schedule.scoringplays"
+        "expand": SCHEDULE_PARAMS
     }
 
     def __init__(self, start_date, end_date=None):
