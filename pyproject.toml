@@ -8,9 +8,6 @@ documentation="https://github.com/hockeymonkeys/statsapiclient#README.rst"
 license="MPL-2.0"
 authors = ["Brett LaBombarda <bplabombarda@gmail.com>"]
 
-[tool.poetry.scripts]
-test = "poetry run pytest"
-
 [tool.poetry.dependencies]
 python = "^3.7"
 jupyter = "^1.0"
