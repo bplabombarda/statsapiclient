@@ -25,19 +25,28 @@ games_from_date_range
 Games
 ^^^^^
 
-game_play_by_play
+game_line_score
 
-game_box_score
+game_play_by_play (TBD)
 
-Play by play
-^^^^^^^^^^^^
+game_box_score (TBD)
 
-TBD
+
+Teams
+^^^^^
+
+teams_all
+
+teams_by_conference
+
+teams_by_division
+
 
 Players
 ^^^^^^^
 
 TBD
+
 
 Examples
 ^^^^^^^^

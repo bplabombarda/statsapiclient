@@ -9,7 +9,7 @@ license="MPL-2.0"
 authors = ["Brett LaBombarda <bplabombarda@gmail.com>"]
 
 [tool.poetry.scripts]
-tests = "pytest --rootdir ../"
+test = "poetry run pytest"
 
 [tool.poetry.dependencies]
 python = "^3.7"
