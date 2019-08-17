@@ -3,7 +3,7 @@ from .utils import fetch_json
 
 class Teams:
     """
-    Lists of NHL teams.
+    Lists of NHL teams by conference or division.
     """
 
     endpoint = "api/v1/teams"
@@ -16,27 +16,27 @@ class Teams:
         return [team for team in self.data if team.active]
 
     def get_active_by_conference(self):
-        conferences = {
-            "eastern": [],
-            "western": [],
-        }
+        conferences = {}
 
         for team in self.data:
             conference = team["conference"]["name"].lower()
-            conferences[conference].append(team)
+
+            if not conference in conferences:
+                conferences[conference] = [team]
+            else:
+                conferences[conference].append(team)
 
         return conferences
 
     def get_active_by_division(self):
-        divisions = {
-            "atlantic": [],
-            "central": [],
-            "metropolitan": [],
-            "pacific": [],
-        }
+        divisions = {}
 
         for team in self.data:
             division = team["division"]["name"].lower()
-            divisions[division].append(team)
+
+            if not division in divisions:
+                divisions[division] = [team]
+            else:
+                divisions[division].append(team)
 
         return divisions
