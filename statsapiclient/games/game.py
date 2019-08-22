@@ -12,7 +12,10 @@ class Game:
 
     def __init__(self, game_pk):
         game_endpoint = self.endpoint.format(game_pk=game_pk)
-        self.json = fetch_json(endpoint=game_endpoint)
+        try:
+            self.json = fetch_json(endpoint=game_endpoint)
+        except Exception as error:
+            self.json = None
 
     def _filter_plays(self, type):
         plays = self.get_plays()
@@ -74,6 +77,6 @@ class Game:
         ))
 
         return {
-            'penalty_plays': penalty_plays,
-            'scoring_plays': scoring_plays,
+            "penalty_plays": penalty_plays,
+            "scoring_plays": scoring_plays,
         }

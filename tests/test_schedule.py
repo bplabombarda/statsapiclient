@@ -1,5 +1,5 @@
 from statsapiclient.schedule import Schedule
-# from .mocks.schedule_mock import dates
+# from tests.mocks.schedule_mock import dates
 
 dates = [{
     "games": [
