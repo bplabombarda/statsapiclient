@@ -13,7 +13,7 @@ class Teams:
         self.data = json["teams"]
 
     def get_active(self):
-        return [team for team in self.data if team.active]
+        return [team for team in self.data if team["active"]]
 
     def get_active_by_conference(self):
         conferences = {}
