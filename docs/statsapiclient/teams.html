@@ -27,7 +27,7 @@
 
 class Teams:
     &#34;&#34;&#34;
-    Lists of NHL teams.
+    Lists of NHL teams by conference or division.
     &#34;&#34;&#34;
 
     endpoint = &#34;api/v1/teams&#34;
@@ -40,28 +40,28 @@ class Teams:
         return [team for team in self.data if team.active]
 
     def get_active_by_conference(self):
-        conferences = {
-            &#34;eastern&#34;: [],
-            &#34;western&#34;: [],
-        }
+        conferences = {}
 
         for team in self.data:
             conference = team[&#34;conference&#34;][&#34;name&#34;].lower()
-            conferences[conference].append(team)
+
+            if not conference in conferences:
+                conferences[conference] = [team]
+            else:
+                conferences[conference].append(team)
 
         return conferences
 
     def get_active_by_division(self):
-        divisions = {
-            &#34;atlantic&#34;: [],
-            &#34;central&#34;: [],
-            &#34;metropolitan&#34;: [],
-            &#34;pacific&#34;: [],
-        }
+        divisions = {}
 
         for team in self.data:
             division = team[&#34;division&#34;][&#34;name&#34;].lower()
-            divisions[division].append(team)
+
+            if not division in divisions:
+                divisions[division] = [team]
+            else:
+                divisions[division].append(team)
 
         return divisions</code></pre>
 </details>
@@ -79,12 +79,12 @@ class Teams:
 <span>class <span class="ident">Teams</span></span>
 </code></dt>
 <dd>
-<section class="desc"><p>Lists of NHL teams.</p></section>
+<section class="desc"><p>Lists of NHL teams by conference or division.</p></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">class Teams:
     &#34;&#34;&#34;
-    Lists of NHL teams.
+    Lists of NHL teams by conference or division.
     &#34;&#34;&#34;
 
     endpoint = &#34;api/v1/teams&#34;
@@ -97,28 +97,28 @@ class Teams:
         return [team for team in self.data if team.active]
 
     def get_active_by_conference(self):
-        conferences = {
-            &#34;eastern&#34;: [],
-            &#34;western&#34;: [],
-        }
+        conferences = {}
 
         for team in self.data:
             conference = team[&#34;conference&#34;][&#34;name&#34;].lower()
-            conferences[conference].append(team)
+
+            if not conference in conferences:
+                conferences[conference] = [team]
+            else:
+                conferences[conference].append(team)
 
         return conferences
 
     def get_active_by_division(self):
-        divisions = {
-            &#34;atlantic&#34;: [],
-            &#34;central&#34;: [],
-            &#34;metropolitan&#34;: [],
-            &#34;pacific&#34;: [],
-        }
+        divisions = {}
 
         for team in self.data:
             division = team[&#34;division&#34;][&#34;name&#34;].lower()
-            divisions[division].append(team)
+
+            if not division in divisions:
+                divisions[division] = [team]
+            else:
+                divisions[division].append(team)
 
         return divisions</code></pre>
 </details>
@@ -150,14 +150,15 @@ class Teams:
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def get_active_by_conference(self):
-    conferences = {
-        &#34;eastern&#34;: [],
-        &#34;western&#34;: [],
-    }
+    conferences = {}
 
     for team in self.data:
         conference = team[&#34;conference&#34;][&#34;name&#34;].lower()
-        conferences[conference].append(team)
+
+        if not conference in conferences:
+            conferences[conference] = [team]
+        else:
+            conferences[conference].append(team)
 
     return conferences</code></pre>
 </details>
@@ -170,16 +171,15 @@ class Teams:
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def get_active_by_division(self):
-    divisions = {
-        &#34;atlantic&#34;: [],
-        &#34;central&#34;: [],
-        &#34;metropolitan&#34;: [],
-        &#34;pacific&#34;: [],
-    }
+    divisions = {}
 
     for team in self.data:
         division = team[&#34;division&#34;][&#34;name&#34;].lower()
-        divisions[division].append(team)
+
+        if not division in divisions:
+            divisions[division] = [team]
+        else:
+            divisions[division].append(team)
 
     return divisions</code></pre>
 </details>

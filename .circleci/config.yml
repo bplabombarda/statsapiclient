@@ -15,11 +15,11 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: install poetry
+          name: Install System Dependencies
           command: pip install poetry
 
       - run:
-          name: install dependencies
+          name: Install Project Dependencies
           command: poetry install
 
       - save_cache:
@@ -28,5 +28,5 @@ jobs:
           key: v1-dependencies-{{ checksum "poetry.lock" }}
 
       - run:
-          name: test
+          name: Run Tests 
           command: poetry run pytest

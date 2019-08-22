@@ -1,4 +1,4 @@
-from requests import get
+from requests import HTTPError, get
 
 from .constants import API_URL, HEADERS
 
@@ -14,8 +14,11 @@ def fetch_json(endpoint, params=None):
     Returns:
         json: json object for selected API call
     """
-    h = dict(HEADERS)
-    fetch = get(API_URL.format(endpoint=endpoint), params=params, headers=h)
+    try:
+        h = dict(HEADERS)
+        fetch = get(API_URL.format(endpoint=endpoint), params=params, headers=h)
 
-    fetch.raise_for_status()
-    return fetch.json()
+        fetch.raise_for_status()
+        return fetch.json()
+    except HTTPError as error:
+        raise HTTPError
