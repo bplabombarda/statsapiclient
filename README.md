@@ -1,5 +1,6 @@
 # statsapiclient: A client for the NHL stats API
 
+[![CircleCI](https://circleci.com/gh/bplabombarda/statsapiclient.svg?style=svg)](https://circleci.com/gh/bplabombarda/statsapiclient)
 
 ## Purpose
 
