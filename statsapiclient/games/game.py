@@ -14,6 +14,34 @@ class Game:
         game_endpoint = self.endpoint.format(game_pk=game_pk)
         self.json = fetch_json(endpoint=game_endpoint)
 
+    def _filter_plays(self, type):
+        plays = self.get_plays()
+        all_plays = plays["allPlays"]
+        event_plays = plays[type]
+        
+        return list(filter(
+            lambda p: p["about"]["eventIdx"] in event_plays, all_plays
+        ))
+
+    def _build_event_play(self, play):
+        strength = ""
+
+        if play["result"]["eventTypeId"] == "GOAL":
+            strength = play["result"]["strength"]["name"]
+
+        if play["result"]["eventTypeId"] == "PENALTY":
+            penalty = play["result"]["secondaryType"]
+            minutes = play["result"]["penaltyMinutes"]
+            strength = f"{penalty} ({minutes} min)"
+
+        return {
+            "period": play["about"]["ordinalNum"],
+            "time": play["about"]["periodTimeRemaining"],
+            "team": play["team"]["triCode"],
+            "strength": strength,
+            "description": play["result"]["description"],
+        }
+
     def get_box_score(self):
         """Gets game boxscore data."""
         return self.json["liveData"]["boxscore"]
@@ -22,6 +50,30 @@ class Game:
         """Gets game linescore data."""
         return self.json["liveData"]["linescore"]
 
-    def get_play_by_play(self):
+    def get_plays(self):
         """Gets game play data."""
         return self.json["liveData"]["plays"]
+
+    def get_penalty_plays(self):
+        """Gets a list of penalty plays."""
+        return self._filter_plays("penaltyPlays")
+
+    def get_scoring_plays(self):
+        """Gets a list of scoring plays."""
+        return self._filter_plays("scoringPlays")
+
+    def get_summary(self):
+        """Gets game summary data."""
+        penalty_plays = list(map(
+            self._build_event_play,
+            self.get_penalty_plays()
+        ))
+        scoring_plays = list(map(
+            self._build_event_play,
+            self.get_scoring_plays()
+        ))
+
+        return {
+            'penalty_plays': penalty_plays,
+            'scoring_plays': scoring_plays,
+        }

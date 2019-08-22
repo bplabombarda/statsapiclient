@@ -42,20 +42,18 @@ class Schedule:
     def __init__(self, start_date, end_date=None):
         self.params[&#34;startDate&#34;] = start_date
         self.params[&#34;endDate&#34;] = end_date if end_date else start_date
+
         json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.dates = json[&#34;dates&#34;]
-
-    def games_from_dates(self, dates):
-        &#34;&#34;&#34;Returns a list of games compiled from a data or date range.&#34;&#34;&#34;
-        games = []
-        for date in dates:
-            games += [game for game in date[&#34;games&#34;]]
-
-        return games
+        self.data = json[&#34;dates&#34;]
 
     def get_games(self):
-        &#34;&#34;&#34;Returns a list of games.&#34;&#34;&#34;
-        return self.games_from_dates(self.dates)</code></pre>
+        &#34;&#34;&#34;Returns a list of games compiled from a date or date range.&#34;&#34;&#34;
+        games = []
+
+        for date in self.data:
+            games += [game for game in date[&#34;games&#34;]]
+
+        return games</code></pre>
 </details>
 </section>
 <section>
@@ -94,20 +92,18 @@ class Schedule:
     def __init__(self, start_date, end_date=None):
         self.params[&#34;startDate&#34;] = start_date
         self.params[&#34;endDate&#34;] = end_date if end_date else start_date
+
         json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.dates = json[&#34;dates&#34;]
-
-    def games_from_dates(self, dates):
-        &#34;&#34;&#34;Returns a list of games compiled from a data or date range.&#34;&#34;&#34;
-        games = []
-        for date in dates:
-            games += [game for game in date[&#34;games&#34;]]
-
-        return games
+        self.data = json[&#34;dates&#34;]
 
     def get_games(self):
-        &#34;&#34;&#34;Returns a list of games.&#34;&#34;&#34;
-        return self.games_from_dates(self.dates)</code></pre>
+        &#34;&#34;&#34;Returns a list of games compiled from a date or date range.&#34;&#34;&#34;
+        games = []
+
+        for date in self.data:
+            games += [game for game in date[&#34;games&#34;]]
+
+        return games</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -122,32 +118,21 @@ class Schedule:
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="statsapiclient.schedule.Schedule.games_from_dates"><code class="name flex">
-<span>def <span class="ident">games_from_dates</span></span>(<span>self, dates)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Returns a list of games compiled from a data or date range.</p></section>
-<details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def games_from_dates(self, dates):
-    &#34;&#34;&#34;Returns a list of games compiled from a data or date range.&#34;&#34;&#34;
-    games = []
-    for date in dates:
-        games += [game for game in date[&#34;games&#34;]]
-
-    return games</code></pre>
-</details>
-</dd>
 <dt id="statsapiclient.schedule.Schedule.get_games"><code class="name flex">
 <span>def <span class="ident">get_games</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns a list of games.</p></section>
+<section class="desc"><p>Returns a list of games compiled from a date or date range.</p></section>
 <details class="source">
 <summary>Source code</summary>
 <pre><code class="python">def get_games(self):
-    &#34;&#34;&#34;Returns a list of games.&#34;&#34;&#34;
-    return self.games_from_dates(self.dates)</code></pre>
+    &#34;&#34;&#34;Returns a list of games compiled from a date or date range.&#34;&#34;&#34;
+    games = []
+
+    for date in self.data:
+        games += [game for game in date[&#34;games&#34;]]
+
+    return games</code></pre>
 </details>
 </dd>
 </dl>
@@ -172,7 +157,6 @@ class Schedule:
 <h4><code><a title="statsapiclient.schedule.Schedule" href="#statsapiclient.schedule.Schedule">Schedule</a></code></h4>
 <ul class="">
 <li><code><a title="statsapiclient.schedule.Schedule.endpoint" href="#statsapiclient.schedule.Schedule.endpoint">endpoint</a></code></li>
-<li><code><a title="statsapiclient.schedule.Schedule.games_from_dates" href="#statsapiclient.schedule.Schedule.games_from_dates">games_from_dates</a></code></li>
 <li><code><a title="statsapiclient.schedule.Schedule.get_games" href="#statsapiclient.schedule.Schedule.get_games">get_games</a></code></li>
 <li><code><a title="statsapiclient.schedule.Schedule.params" href="#statsapiclient.schedule.Schedule.params">params</a></code></li>
 </ul>
