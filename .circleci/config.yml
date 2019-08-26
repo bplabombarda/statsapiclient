@@ -44,13 +44,13 @@ jobs:
     setps:
       - checkout
 
-      -run:
-        name: Set Test PyPI Repository
-        command: poetry config repositories.testpypi https://test.pypi.org/simple
+      - run:
+          name: Set Test PyPI Repository
+          command: poetry config repositories.testpypi https://test.pypi.org/simple
 
-      -run:
-        name: Push to Test PyPI
-        command: poetry publish --build --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction -r testpypi
+      - run:
+          name: Push to Test PyPI
+          command: poetry publish --build --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction -r testpypi
 
   deploy:
 
@@ -60,9 +60,9 @@ jobs:
     setps:
       - checkout
 
-      -run:
-        name: Push to PyPI
-        command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+      - run:
+          name: Push to PyPI
+          command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
     
 workflows:
 
