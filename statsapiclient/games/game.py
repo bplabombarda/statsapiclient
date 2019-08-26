@@ -18,6 +18,10 @@ class Game:
             self.json = None
 
     def _filter_plays(self, type):
+        """Filter for only penalty or only scoring plays.
+        Args:
+            :type: The play type. Either `penaltyPlays` or `scoringPlays`
+        """
         plays = self.get_plays()
         all_plays = plays["allPlays"]
         event_plays = plays[type]
@@ -27,6 +31,10 @@ class Game:
         ))
 
     def _build_event_play(self, play):
+        """Create a play dict for game summary.
+        Args:
+            :play: A play dict from raw play-by-play data.
+        """
         strength = ""
 
         if play["result"]["eventTypeId"] == "GOAL":
@@ -66,7 +74,7 @@ class Game:
         return self._filter_plays("scoringPlays")
 
     def get_summary(self):
-        """Gets game summary data."""
+        """Gets game summary data dict."""
         penalty_plays = list(map(
             self._build_event_play,
             self.get_penalty_plays()

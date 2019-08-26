@@ -1,8 +1,10 @@
 version: 2
+
 jobs:
+
   build:
     docker:
-      - image: circleci/python:3.7.4-stretch
+      - image: circleci/python:3.7-buster
 
     working_directory: ~/statsapiclient
 
@@ -11,8 +13,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "poetry.lock" }}
-            - v1-dependencies-
+            - dependencies-{{ checksum "poetry.lock" }}
 
       - run:
           name: Install System Dependencies
@@ -25,8 +26,76 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "poetry.lock" }}
+          key: dependencies-{{ checksum "poetry.lock" }}
 
       - run:
-          name: Run Tests 
+          name: Run flake8
+          command: poetry run flake8 .
+
+      - run:
+          name: Run Pytest
           command: poetry run pytest
+
+  deploy-test:
+
+    docker:
+      - image: circleci/python:3.7-buster
+
+    setps:
+      - checkout
+
+      -run:
+        name: Set Test PyPI Repository
+        command: poetry config repositories.testpypi https://test.pypi.org/simple
+
+      -run:
+        name: Push to Test PyPI
+        command: poetry publish --build --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction -r testpypi
+
+  deploy:
+
+    docker:
+      - image: circleci/python:3.7-buster
+
+    setps:
+      - checkout
+
+      -run:
+        name: Push to PyPI
+        command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+    
+workflows:
+
+  version: 2
+
+  build-workflow:
+    jobs:
+      - build
+
+  deploy-test-workflow:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+
+      - deploy-test:
+          requires:
+            - build
+          filters:
+              tags:
+                only: /v[0-9]+(\.[0-9]+)*/
+              branches:
+                ignore: /.*/
+
+      - deploy:
+          requires:
+            - build
+            - deploy-test
+          filters:
+              tags:
+                only: /v[0-9]+(\.[0-9]+)*/
+              branches:
+                ignore: /.*/
