@@ -23,7 +23,10 @@ class Schedule:
         self.data = json["dates"]
 
     def get_games(self):
-        """Returns a list of games compiled from a date or date range."""
+        """Gets a list of games compiled from a date or date range.
+        Returns:
+            list: flattened list of games in a given date range
+        """
         games = []
 
         for date in self.data:

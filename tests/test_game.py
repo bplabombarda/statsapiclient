@@ -1,6 +1,6 @@
 from statsapiclient.games.game import Game
 
-game = {
+game_obj = {
     "liveData": {
         "boxscore": {},
         "linescore": {},
@@ -75,3 +75,4 @@ class TestGame:
         play = game._build_event_play(mock_play)
 
         assert play == expected
+    

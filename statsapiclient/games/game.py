@@ -1,4 +1,6 @@
-from .line_score import LineScore
+from requests import HTTPError
+
+from statsapiclient.games.line_score import LineScore
 from ..utils import fetch_json
 
 
@@ -11,10 +13,13 @@ class Game:
     endpoint = "api/v1/game/{game_pk}/feed/live"
 
     def __init__(self, game_pk):
-        game_endpoint = self.endpoint.format(game_pk=game_pk)
+        self.pk =  game_pk
+        game_endpoint = self.endpoint.format(game_pk=self.pk)
         try:
+            self.error = None
             self.json = fetch_json(endpoint=game_endpoint)
-        except Exception as error:
+        except HTTPError as error:
+            self.error = error
             self.json = None
 
     def _filter_plays(self, type):
@@ -58,8 +63,10 @@ class Game:
         return self.json["liveData"]["boxscore"]
 
     def get_line_score(self):
-        """Gets game linescore data."""
-        return self.json["liveData"]["linescore"]
+        """Gets game linescore object."""
+        data = self.json["liveData"]["linescore"]
+
+        return LineScore(data)
 
     def get_plays(self):
         """Gets game play data."""
@@ -88,3 +95,6 @@ class Game:
             "penalty_plays": penalty_plays,
             "scoring_plays": scoring_plays,
         }
+
+    def __repr__(self):
+        return f"<Game pk=${self.pk}>"
