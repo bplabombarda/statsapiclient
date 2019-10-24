@@ -1,4 +1,4 @@
-API_URL = "https://statsapi.web.nhl.com/{endpoint}"
+API_HOST = "https://statsapi.web.nhl.com"
 
 HEADERS = {
     "user-agent": (

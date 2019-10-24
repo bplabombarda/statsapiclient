@@ -1,6 +1,6 @@
 from requests import HTTPError, get
 
-from .constants import API_URL, HEADERS
+from .constants import API_HOST, HEADERS
 
 
 def fetch_json(endpoint, params=None):
@@ -17,7 +17,7 @@ def fetch_json(endpoint, params=None):
     try:
         headers = dict(HEADERS)
         response = get(
-            API_URL.format(endpoint=endpoint),
+            f"{API_HOST}/{endpoint}",
             params=params, headers=headers
         )
         response.raise_for_status()
