@@ -1,4 +1,6 @@
-from .constants import SCHEDULE_PARAMS
+from datetime import datetime
+
+from .constants import SCHEDULE_PARAMS, SCHEDULE_DATE_FORMAT
 from .utils import fetch_json
 
 
@@ -9,13 +11,15 @@ class Schedule:
         :end_date: Date string in the format 'YYYY-MM-DD' (optional)
     """
 
-    endpoint = "api/v1/schedule"
-
-    params = {
-        "expand": SCHEDULE_PARAMS
-    }
-
     def __init__(self, start_date, end_date=None):
+        self.endpoint = "api/v1/schedule"
+        self.params = { "expand": SCHEDULE_PARAMS }
+
+        self.validate_date(start_date)
+
+        if end_date:
+            self.validate_date(end_date)
+
         self.params["startDate"] = start_date
         self.params["endDate"] = end_date if end_date else start_date
 
@@ -33,3 +37,13 @@ class Schedule:
             games += [game for game in date["games"]]
 
         return games
+
+    def validate_date(self, date):
+        """Validates that a date meets the specified format."""
+        try:
+            datetime.strptime(date, SCHEDULE_DATE_FORMAT.get('format'))
+        except ValueError:
+            format_display = SCHEDULE_DATE_FORMAT.get('display')
+           
+            raise ValueError(
+                f"Incorrect data format, should be {format_display}")
