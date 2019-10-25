@@ -28,10 +28,6 @@ jobs:
             - ./venv
           key: dependencies-{{ checksum "poetry.lock" }}
 
-      # - run:
-      #     name: Run flake8
-      #     command: poetry run flake8 .
-
       - run:
           name: Run Pytest
           command: poetry run pytest
