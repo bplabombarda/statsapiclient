@@ -33,6 +33,10 @@ jobs:
           command: poetry run pytest
 
   deploy-test:
+    type: approval
+
+    requires:
+      - build
 
     docker:
       - image: circleci/python:3.7-buster
@@ -49,6 +53,10 @@ jobs:
           command: poetry publish --build --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction -r testpypi
 
   deploy:
+    type: approval
+
+    requires:
+      - deploy-test
 
     docker:
       - image: circleci/python:3.7-buster
