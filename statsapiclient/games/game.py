@@ -62,7 +62,7 @@ class Game:
         """Gets game summary data dict."""
         penalty_plays = self.get_penalty_plays()
         scoring_plays = self.get_scoring_plays()
-        summary = Summary(penalty_plays, scoring_plays),game_summary
+        summary = Summary(penalty_plays, scoring_plays).game_summary
 
         return summary
 
