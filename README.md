@@ -12,7 +12,7 @@ To provide a Python client to access the NHL's JSON API including game, play, an
     pip install -i https://test.pypi.org/simple/ statsapiclient
 
 
-## Module Specs
+## Modules
 
 ### Schedule
 
@@ -23,6 +23,7 @@ Returns a list of games contained within the instantiated date or date range.
 
 ### Games
 
+#### game
 
 `get_box_score`
 

@@ -1,4 +1,4 @@
-API_URL = "https://statsapi.web.nhl.com/{endpoint}"
+API_HOST = "https://statsapi.web.nhl.com"
 
 HEADERS = {
     "user-agent": (
@@ -11,3 +11,8 @@ HEADERS = {
 }
 
 SCHEDULE_PARAMS = "schedule.teams,schedule.linescore,schedule.decisions,schedule.scoringplays"
+
+SCHEDULE_DATE_FORMAT = {
+    "display": "YYYY-MM-DD",
+    "format": "%Y-%m-%d"
+}

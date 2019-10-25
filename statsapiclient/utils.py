@@ -1,6 +1,6 @@
 from requests import HTTPError, get
 
-from .constants import API_URL, HEADERS
+from .constants import API_HOST, HEADERS
 
 
 def fetch_json(endpoint, params=None):
@@ -15,10 +15,13 @@ def fetch_json(endpoint, params=None):
         json: json object for selected API call
     """
     try:
-        h = dict(HEADERS)
-        fetch = get(API_URL.format(endpoint=endpoint), params=params, headers=h)
+        headers = dict(HEADERS)
+        response = get(
+            f"{API_HOST}/{endpoint}",
+            params=params, headers=headers
+        )
+        response.raise_for_status()
 
-        fetch.raise_for_status()
-        return fetch.json()
+        return response.json()
     except HTTPError as error:
         raise HTTPError

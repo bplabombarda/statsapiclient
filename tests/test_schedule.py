@@ -16,17 +16,17 @@ dates = [{
 
 class TestSchedule:
     def test_single_date(self):
-        schedule = Schedule('01/01/2011')
+        schedule = Schedule('2011-01-01')
 
         assert schedule.params["startDate"] == schedule.params["endDate"]
 
     def test_date_range(self):
-        schedule = Schedule('01/01/2011', '01/02/2011')
+        schedule = Schedule('2011-01-01', '2011-01-02')
         
         assert schedule.params["startDate"] != schedule.params["endDate"]
 
     def test_single_date_games(self):
-        schedule = Schedule('01/01/2011')
+        schedule = Schedule('2011-01-01')
         schedule.data = [dates[0]]
 
         games = schedule.get_games()
@@ -34,7 +34,7 @@ class TestSchedule:
         assert len(games) == 2
 
     def test_multiple_dates_games(self):
-        schedule = Schedule('01/01/2011', '01/02/2011')
+        schedule = Schedule('2011-01-01', '2011-01-02')
         schedule.data = dates
 
         games = schedule.get_games()
