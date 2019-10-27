@@ -1,3 +1,7 @@
+"""This class allows retrieval of games from a given
+date or date range."""
+
+
 from datetime import datetime
 
 from .constants import SCHEDULE_PARAMS, SCHEDULE_DATE_FORMAT
@@ -13,7 +17,7 @@ class Schedule:
 
     def __init__(self, start_date, end_date=None):
         self.endpoint = "api/v1/schedule"
-        self.params = { "expand": SCHEDULE_PARAMS }
+        self.params = {"expand": SCHEDULE_PARAMS}
 
         self.validate_date(start_date)
 
@@ -38,12 +42,13 @@ class Schedule:
 
         return games
 
-    def validate_date(self, date):
+    @staticmethod
+    def validate_date(date):
         """Validates that a date meets the specified format."""
         try:
             datetime.strptime(date, SCHEDULE_DATE_FORMAT.get('format'))
         except ValueError:
             format_display = SCHEDULE_DATE_FORMAT.get('display')
-           
+
             raise ValueError(
                 f"Incorrect data format, should be {format_display}")

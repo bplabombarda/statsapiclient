@@ -1,3 +1,5 @@
+"""Utility functions used across modules."""
+
 from requests import HTTPError, get
 
 from .constants import API_HOST, HEADERS
@@ -23,5 +25,5 @@ def fetch_json(endpoint, params=None):
         response.raise_for_status()
 
         return response.json()
-    except HTTPError as error:
+    except HTTPError:
         raise HTTPError

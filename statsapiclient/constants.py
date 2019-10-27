@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 API_HOST = "https://statsapi.web.nhl.com"
 
 HEADERS = {

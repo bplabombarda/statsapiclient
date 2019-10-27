@@ -85,9 +85,14 @@ workflows:
             branches:
               ignore: /.*/
 
+      - hold:
+          type: approval
+          requires:
+           - build
+
       - deploy-test:
           requires:
-            - build
+            - hold
           filters:
               tags:
                 only: /v[0-9]+(\.[0-9]+)*/
@@ -103,9 +108,14 @@ workflows:
             branches:
               ignore: /.*/
 
+      - hold:
+          type: approval
+          requires:
+           - build
+
       - deploy:
           requires:
-            - build
+            - hold
           filters:
               tags:
                 only: /v[0-9]+(\.[0-9]+)*/
