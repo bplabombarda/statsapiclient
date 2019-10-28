@@ -50,7 +50,7 @@ jobs:
             - dist
 
   deploy-test:
-    executor: my-executor
+    executor: executor
 
     steps:
       - attach_workspace:
@@ -61,7 +61,7 @@ jobs:
           command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ workspace/dist/*
 
   deploy:
-    executor: my-executor
+    executor: executor
 
     steps:
       - attach_workspace:
