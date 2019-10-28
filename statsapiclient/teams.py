@@ -31,7 +31,7 @@ class Teams:
         for team in self.data:
             conference = team["conference"]["name"].lower()
 
-            if not conference in conferences:
+            if conference not in conferences:
                 conferences[conference] = [team]
             else:
                 conferences[conference].append(team)
@@ -48,7 +48,7 @@ class Teams:
         for team in self.data:
             division = team["division"]["name"].lower()
 
-            if not division in divisions:
+            if division not in divisions:
                 divisions[division] = [team]
             else:
                 divisions[division].append(team)
