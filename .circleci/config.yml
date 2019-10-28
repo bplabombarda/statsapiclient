@@ -1,10 +1,9 @@
 version: 2
 
 jobs:
-
   build:
     docker:
-      - image: circleci/python:3.7-buster
+      - image: circleci/python:3.8-buster
 
     working_directory: ~/statsapiclient
 
@@ -13,7 +12,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "poetry.lock" }}
+            - venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
 
       - run:
           name: Install System Dependencies
@@ -24,90 +23,79 @@ jobs:
           command: poetry install
 
       - save_cache:
+          key: venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
           paths:
-            - ./venv
-          key: dependencies-{{ checksum "poetry.lock" }}
+            - .venv
 
       - run:
-          name: Run Pytest
+          name: Run Linter
+          command: poetry run flake8
+
+      - run:
+          name: Run Tests
           command: poetry run pytest
 
+      - run:
+          name: Build
+          command: poetry build      
+
   deploy-test:
-    type: approval
-
-    requires:
-      - build
-
     docker:
-      - image: circleci/python:3.7-buster
+      - image: circleci/python:3.8-buster
+
+    working_directory: ~/statsapiclient
 
     steps:
-      - checkout
-
       - run:
-          name: Set Test PyPI Repository
-          command: poetry config repositories.testpypi https://test.pypi.org/simple
-
-      - run:
-          name: Push to Test PyPI
-          command: poetry publish --build --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction -r testpypi
+          name: Publish to test.pypi
+          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
 
   deploy:
-    type: approval
-
-    requires:
-      - deploy-test
-
     docker:
-      - image: circleci/python:3.7-buster
+      - image: circleci/python:3.8-buster
+
+    working_directory: ~/statsapiclient
 
     steps:
-      - checkout
-
       - run:
-          name: Push to PyPI
+          name: Publish to pypi
           command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
-    
-workflows:
 
+workflows:
   version: 2
 
-  build-workflow:
-    jobs:
-      - build
-
-  deploy-test-workflow:
+  build-and-deploy:
     jobs:
       - build:
           filters:
-            tags:
-              only: /v[0-9]+(\.[0-9]+)*/
             branches:
-              ignore: /.*/
+              ignore:
+                  - /feature-.*/
+
+      - approve-test:
+          type: approval
+          requires:
+           - build
 
       - deploy-test:
           requires:
-            - build
-          filters:
-              tags:
-                only: /v[0-9]+(\.[0-9]+)*/
-              branches:
-                ignore: /.*/
-
-  deploy-workflow:
-    jobs:
-      - build:
+            - approve-test
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /^v.*/
             branches:
               ignore: /.*/
 
+      - approve-prod:
+          type: approval
+          requires:
+           - deploy-test
+
       - deploy:
           requires:
-            - build
+            - approve-prod
           filters:
-              tags:
-                only: /v[0-9]+(\.[0-9]+)*/
-              branches:
-                ignore: /.*/
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

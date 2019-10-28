@@ -1,3 +1,7 @@
+"""This class provides access to linescore data
+given a dict of game data."""
+
+
 class LineScore:
     """
     Gets linescore data.
@@ -28,12 +32,12 @@ class LineScore:
         return self.data["intermissionInfo"]["intermission"]
 
     def get_power_play_strength(self):
-        """Returns current powerplay strngth, if any.""" 
+        """Returns current powerplay strngth, if any."""
         return self.data["powerPlayStrength"]
 
     # Score & shots on goal methods
     def get_score(self):
-        """Returns a dict of scores keyed by 'away' and 'home'.""" 
+        """Returns a dict of scores keyed by 'away' and 'home'."""
         return {
             "away": self.data["teams"]["away"]["goals"],
             "home": self.data["teams"]["home"]["goals"],

@@ -1,3 +1,6 @@
+"""This class allows retrieval of game data as different
+types and layouts of said data."""
+
 from requests import HTTPError
 
 from statsapiclient.games.line_score import LineScore
@@ -8,14 +11,14 @@ from ..utils import fetch_json
 class Game:
     """Score and play data for a particular NHL game.
     Args:
-        :game_pk: The game primary key 
+        :game_pk: The game primary key
     """
 
     endpoint = "api/v1/game/{game_pk}/feed/live"
 
     def __init__(self, game_pk):
-        self.pk =  game_pk
-        game_endpoint = self.endpoint.format(game_pk=self.pk)
+        self.game_pk = game_pk
+        game_endpoint = self.endpoint.format(game_pk=self.game_pk)
         try:
             self.error = None
             self.json = fetch_json(endpoint=game_endpoint)
@@ -23,15 +26,15 @@ class Game:
             self.error = error
             self.json = None
 
-    def _filter_plays(self, type):
+    def _filter_plays(self, play_type):
         """Filter for only penalty or only scoring plays.
         Args:
-            :type: The play type. Either `penaltyPlays` or `scoringPlays`
+            :play_type: The play type. Either `penaltyPlays` or `scoringPlays`
         """
         plays = self.get_plays()
         all_plays = plays["allPlays"]
-        event_plays = plays[type]
-        
+        event_plays = plays[play_type]
+
         return list(filter(
             lambda p: p["about"]["eventIdx"] in event_plays, all_plays
         ))
@@ -67,4 +70,4 @@ class Game:
         return summary
 
     def __repr__(self):
-        return f"<Game pk=${self.pk}>"
+        return f"<Game game_pk=${self.game_pk}>"

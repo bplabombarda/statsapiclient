@@ -1,3 +1,5 @@
+# flake8: noqa
+
 API_HOST = "https://statsapi.web.nhl.com"
 
 HEADERS = {
