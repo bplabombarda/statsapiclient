@@ -43,8 +43,16 @@ jobs:
           name: Build
           command: poetry build
 
+      - run:
+          name: Create Workspace
+          command: mkdir -p workspace
+
+      - run:
+          name: Move Build for Persistence
+          command: mv dist workspace
+
       - persist_to_workspace:
-          root: ~/statsapiclient/workspace
+          root: workspace
 
           paths:
             - dist
@@ -54,7 +62,11 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/statsapiclient/workspace
+          at: workspace
+
+      - run:
+          name: Move Build for Publish
+          command: mv workspace/dist .
 
       - run:
           name: Publish to test.pypi
@@ -65,7 +77,11 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/statsapiclient/workspace
+          at: workspace
+
+      - run:
+          name: Move Build for Publish
+          command: mv workspace/dist .
 
       - run:
           name: Publish to pypi
