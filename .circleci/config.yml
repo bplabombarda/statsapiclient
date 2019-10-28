@@ -66,16 +66,17 @@ workflows:
 
   build-and-deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              ignore:
-                  - /feature-.*/
+      - build
 
       - approve-test:
           type: approval
           requires:
-           - build
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
 
       - deploy-test:
           requires:
