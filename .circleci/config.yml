@@ -1,7 +1,7 @@
 version: 2
 
 executors:
-  executor:
+  statsapiclient-executor:
     docker:
       - image: circleci/python:3.8-buster
 
@@ -9,7 +9,7 @@ executors:
 
 jobs:
   build:
-    executor: my-executor
+    executor: statsapiclient-executor
 
     steps:
       - checkout
@@ -50,7 +50,7 @@ jobs:
             - dist
 
   deploy-test:
-    executor: executor
+    executor: statsapiclient-executor
 
     steps:
       - attach_workspace:
@@ -61,7 +61,7 @@ jobs:
           command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ workspace/dist/*
 
   deploy:
-    executor: executor
+    executor: statsapiclient-executor
 
     steps:
       - attach_workspace:
