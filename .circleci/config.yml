@@ -44,7 +44,7 @@ jobs:
           command: poetry build
 
       - persist_to_workspace:
-          root: workspace
+          root: ~/statsapiclient/workspace
 
           paths:
             - dist
