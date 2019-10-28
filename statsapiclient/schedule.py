@@ -47,6 +47,7 @@ class Schedule:
         """Validates that a date meets the specified format."""
         try:
             datetime.strptime(date, SCHEDULE_DATE_FORMAT.get('format'))
+            return True
         except ValueError:
             format_display = SCHEDULE_DATE_FORMAT.get('display')
 
