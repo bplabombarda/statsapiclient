@@ -44,7 +44,7 @@ class TestSchedule:
         assert len(games) == 4
 
     def test_validate_date_valid(self):
-        assert Schedule.validate_date('1999-09-09')
+        assert Schedule.validate_date('1999-09-09') is True
 
     def test_validate_date_invalid(self):
         with pytest.raises(ValueError) as excinfo:

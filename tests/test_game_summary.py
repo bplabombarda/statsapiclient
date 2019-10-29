@@ -41,15 +41,16 @@ mock_penalties = [{
     },
 }]
 
+
 class TestSummary:
     def test__filter_plays(self):
         game = Summary(mock_penalties, mock_goals)
+        print(game)
 
         assert True
 
     def test__build_event_play_goal(self):
         game = Summary([], mock_goals)
-
 
         expected = {
             "period": "1st",
@@ -66,7 +67,6 @@ class TestSummary:
     def test__build_event_play_penalty(self):
         game = Summary(mock_penalties, [])
 
-
         expected = {
             "period": "1st",
             "time": "19:59",
@@ -78,4 +78,3 @@ class TestSummary:
         play = game.build_event_play(mock_penalties[0])
 
         assert play == expected
-    
