@@ -19,7 +19,8 @@ class Teams:
         Returns:
             list: active teams
         """
-        return [team for team in self.data if team["active"]]
+        return list(filter(
+            lambda team: team["active"] is True, self.data))
 
     def get_active_by_conference(self):
         """Returns a list of active teams by conference.
@@ -31,10 +32,11 @@ class Teams:
         for team in self.data:
             conference = team["conference"]["name"].lower()
 
-            if conference not in conferences:
-                conferences[conference] = [team]
-            else:
-                conferences[conference].append(team)
+            if team["active"] is True:
+                if conference not in conferences:
+                    conferences[conference] = [team]
+                else:
+                    conferences[conference].append(team)
 
         return conferences
 
@@ -48,9 +50,10 @@ class Teams:
         for team in self.data:
             division = team["division"]["name"].lower()
 
-            if division not in divisions:
-                divisions[division] = [team]
-            else:
-                divisions[division].append(team)
+            if team["active"] is True:
+                if division not in divisions:
+                    divisions[division] = [team]
+                else:
+                    divisions[division].append(team)
 
         return divisions

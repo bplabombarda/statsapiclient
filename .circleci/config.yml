@@ -1,11 +1,15 @@
-version: 2
+version: 2.1
 
-jobs:
-  build:
+executors:
+  statsapiclient-executor:
     docker:
       - image: circleci/python:3.8-buster
 
     working_directory: ~/statsapiclient
+
+jobs:
+  build:
+    executor: statsapiclient-executor
 
     steps:
       - checkout
@@ -37,29 +41,51 @@ jobs:
 
       - run:
           name: Build
-          command: poetry build      
+          command: poetry build
+
+      - run:
+          name: Create Workspace
+          command: mkdir -p workspace
+
+      - run:
+          name: Move Build for Persistence
+          command: mv dist workspace
+
+      - persist_to_workspace:
+          root: workspace
+
+          paths:
+            - dist
 
   deploy-test:
-    docker:
-      - image: circleci/python:3.8-buster
-
-    working_directory: ~/statsapiclient
+    executor: statsapiclient-executor
 
     steps:
+      - attach_workspace:
+          at: workspace
+
+      - run:
+          name: Move Build for Publish
+          command: mv workspace/dist .
+
       - run:
           name: Publish to test.pypi
-          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
+          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ workspace/dist/*
 
   deploy:
-    docker:
-      - image: circleci/python:3.8-buster
-
-    working_directory: ~/statsapiclient
+    executor: statsapiclient-executor
 
     steps:
+      - attach_workspace:
+          at: workspace
+
+      - run:
+          name: Move Build for Publish
+          command: mv workspace/dist .
+
       - run:
           name: Publish to pypi
-          command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+          command: poetry publish --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
 
 workflows:
   version: 2

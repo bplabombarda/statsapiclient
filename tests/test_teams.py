@@ -1,7 +1,7 @@
 from statsapiclient.teams import Teams
 
 mock_teams = [
-    {   
+    {
         "active": True,
         "conference": {
             "name": "CONF_A",
@@ -19,6 +19,15 @@ mock_teams = [
             "name": "DIV_B",
         },
     },
+    {
+        "active": False,
+        "conference": {
+            "name": "CONF_Z",
+        },
+        "division": {
+            "name": "DIV_X",
+        },
+    },
 ]
 
 
@@ -28,7 +37,7 @@ class TestTeams:
         teams.data = mock_teams
         active = teams.get_active()
 
-        assert active == mock_teams
+        assert active == mock_teams[:2]
 
     def test_get_active_by_conference(self):
         teams = Teams()

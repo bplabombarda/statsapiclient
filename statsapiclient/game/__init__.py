@@ -3,8 +3,8 @@ types and layouts of said data."""
 
 from requests import HTTPError
 
-from statsapiclient.games.line_score import LineScore
-from statsapiclient.games.summary import Summary
+from statsapiclient.game.line_score import LineScore
+from statsapiclient.game.summary import Summary
 from ..utils import fetch_json
 
 
@@ -14,30 +14,26 @@ class Game:
         :game_pk: The game primary key
     """
 
-    endpoint = "api/v1/game/{game_pk}/feed/live"
-
     def __init__(self, game_pk):
         self.game_pk = game_pk
-        game_endpoint = self.endpoint.format(game_pk=self.game_pk)
+        self.endpoint = f"api/v1/game/{game_pk}/feed/live"
+
         try:
-            self.error = None
-            self.json = fetch_json(endpoint=game_endpoint)
+            self.json = fetch_json(endpoint=self.endpoint)
         except HTTPError as error:
-            self.error = error
-            self.json = None
+            raise error
 
     def _filter_plays(self, play_type):
         """Filter for only penalty or only scoring plays.
         Args:
-            :play_type: The play type. Either `penaltyPlays` or `scoringPlays`
+            :play_type: Either `penaltyPlays` or `scoringPlays`
         """
         plays = self.get_plays()
         all_plays = plays["allPlays"]
         event_plays = plays[play_type]
 
         return list(filter(
-            lambda p: p["about"]["eventIdx"] in event_plays, all_plays
-        ))
+            lambda p: p["about"]["eventIdx"] in event_plays, all_plays))
 
     def get_box_score(self):
         """Gets game boxscore data."""
