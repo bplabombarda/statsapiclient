@@ -9,7 +9,7 @@ To provide a Python client to access the NHL's JSON API including game, play, an
 
 ## Installation
 
-    pip install -i https://test.pypi.org/simple/ statsapiclient
+    pip install statsapiclient
 
 
 ## Modules
@@ -68,5 +68,3 @@ Game data:
     box_score = g.get_box_score()
     line_score = g.get_line_score()
     play_by_play = g.get_play_by_play()
-
-For more: [Jupyter notebook](https://github.com/bplabombarda/statsapiclient/blob/development/examples/examples.ipynb)
