@@ -33,7 +33,7 @@ jobs:
 
       - run:
           name: Run Linter
-          command: poetry run flake8 statsapiclient
+          command: poetry run pylint statsapiclient
 
       - run:
           name: Run Tests

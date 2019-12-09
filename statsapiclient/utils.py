@@ -25,5 +25,5 @@ def fetch_json(endpoint, params=None):
         response.raise_for_status()
 
         return response.json()
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as error:
+        raise HTTPError(f"Error fetching data: {error}")

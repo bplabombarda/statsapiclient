@@ -38,7 +38,7 @@ class Schedule:
         games = []
 
         for date in self.data:
-            games += [game for game in date["games"]]
+            games += date["games"]
 
         return games
 

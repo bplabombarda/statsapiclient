@@ -1,8 +1,19 @@
+"""
+Game event summary class.
+"""
+
+
 class Summary:
+    """Summary of scoring and penalty play events.
+    Args:
+        :penalty_plays: A list of penalty play dicts.
+        :scoring_plays: A list of scoring play dicts.
+    """
     def __init__(self, penalty_plays, scoring_plays):
         self.build_summary(penalty_plays, scoring_plays)
 
-    def build_event_play(self, play):
+    @staticmethod
+    def build_event_play(play):
         """Create a play dict for game summary.
         Args:
             :play: A play dict from raw play-by-play data.
