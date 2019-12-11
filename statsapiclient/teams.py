@@ -1,13 +1,12 @@
 """This class allows retrieval of active teams by conference,
-division, or all active teams."""
+division, or all active teams.
+"""
 
 from .utils import fetch_json
 
 
 class Teams:
-    """Lists of NHL teams by conference or division.
-    """
-
+    """Lists of NHL teams by conference or division."""
     endpoint = "api/v1/teams"
 
     def __init__(self):

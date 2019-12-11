@@ -1,5 +1,6 @@
 """This class allows retrieval of games from a given
-date or date range."""
+date or date range.
+"""
 
 
 from datetime import datetime
