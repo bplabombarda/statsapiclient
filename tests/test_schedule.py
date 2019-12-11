@@ -29,7 +29,7 @@ class TestSchedule:
 
     def test_single_date_get_games(self):
         schedule = Schedule('2011-01-01')
-        schedule.data = [dates[0]]
+        schedule.dates = [dates[0]]
 
         games = schedule.get_games()
 
@@ -37,7 +37,7 @@ class TestSchedule:
 
     def test_multiple_dates_get_games(self):
         schedule = Schedule('2011-01-01', '2011-01-02')
-        schedule.data = dates
+        schedule.dates = dates
 
         games = schedule.get_games()
 

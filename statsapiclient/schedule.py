@@ -1,12 +1,13 @@
 """This class allows retrieval of games from a given
 date or date range.
 """
-
-
 from datetime import datetime
 
-from .constants import SCHEDULE_PARAMS, SCHEDULE_DATE_FORMAT
-from .utils import fetch_json
+from statsapiclient.constants import (
+    SCHEDULE_DATE_FORMAT,
+    SCHEDULE_PARAMS,
+)
+from statsapiclient.utils import fetch_json
 
 
 class Schedule:
@@ -28,8 +29,8 @@ class Schedule:
         self.params["startDate"] = start_date
         self.params["endDate"] = end_date if end_date else start_date
 
-        json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.data = json["dates"]
+        json = fetch_json(self.endpoint, self.params)
+        self.dates = json["dates"]
 
     def get_games(self):
         """Gets a list of games compiled from a date or date range.
@@ -38,7 +39,7 @@ class Schedule:
         """
         games = []
 
-        for date in self.data:
+        for date in self.dates:
             games += date["games"]
 
         return games

@@ -29,22 +29,11 @@ class Game:
 
     def build_summary(self):
         """Build summary data dict."""
-        penalty_plays = self.filter_plays(
-            self.plays,
-            "penaltyPlays"
-        )
-        penalty_plays = list(map(
-            self.build_event_play,
-            penalty_plays
-        ))
-        scoring_plays = self.filter_plays(
-            self.plays,
-            "scoringPlays"
-        )
-        scoring_plays = list(map(
-            self.build_event_play,
-            scoring_plays
-        ))
+        penalty_plays = self.filter_plays(self.plays, "penaltyPlays")
+        penalty_plays = list(map(self.build_event_play, penalty_plays))
+
+        scoring_plays = self.filter_plays(self.plays, "scoringPlays")
+        scoring_plays = list(map(self.build_event_play, scoring_plays))
 
         return {
             "penalty_plays": penalty_plays,
