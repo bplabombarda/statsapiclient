@@ -21,7 +21,7 @@ class Game:
             self.boxscore = self.json["liveData"]["boxscore"]
             self.line_score = self.json["liveData"]["line_score"]
             self.plays = self.json["liveData"]["plays"]
-            self.summary = None
+            self.summary = self.build_summary()
         except HTTPError as error:
             raise Exception(f"{error}")
         except KeyError as error:
