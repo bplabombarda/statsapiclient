@@ -2,7 +2,7 @@
 
 from requests import HTTPError, get
 
-from .constants import API_HOST, HEADERS
+from statsapiclient.constants import API_HOST, HEADERS
 
 
 def fetch_json(endpoint, params=None):

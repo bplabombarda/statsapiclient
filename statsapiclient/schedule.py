@@ -16,7 +16,6 @@ class Schedule:
         :start_date: Date string in the format 'YYYY-MM-DD'
         :end_date: Date string in the format 'YYYY-MM-DD' (optional)
     """
-
     def __init__(self, start_date, end_date=None):
         self.endpoint = "api/v1/schedule"
         self.params = {"expand": SCHEDULE_PARAMS}

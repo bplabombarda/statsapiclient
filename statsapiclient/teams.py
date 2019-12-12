@@ -10,7 +10,7 @@ class Teams:
     endpoint = "api/v1/teams"
 
     def __init__(self):
-        json = fetch_json(endpoint=self.endpoint)
+        json = fetch_json(self.endpoint)
         self.data = json["teams"]
 
     def get_active(self):

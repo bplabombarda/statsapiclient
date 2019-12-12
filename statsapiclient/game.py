@@ -11,15 +11,14 @@ class Game:
     Args:
         :game_pk: The game primary key
     """
-
     def __init__(self, game_pk):
         self.game_pk = game_pk
         self.endpoint = f"api/v1/game/{game_pk}/feed/live"
 
         try:
-            self.json = fetch_json(endpoint=self.endpoint)
-            self.boxscore = self.json["liveData"]["boxscore"]
-            self.line_score = self.json["liveData"]["line_score"]
+            self.json = fetch_json(self.endpoint)
+            self.box_score = self.json["liveData"]["boxscore"]
+            self.line_score = self.json["liveData"]["linescore"]
             self.plays = self.json["liveData"]["plays"]
             self.summary = self.build_summary()
         except HTTPError as error:
