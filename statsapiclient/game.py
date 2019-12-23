@@ -3,6 +3,7 @@ types and layouts of the game data."""
 
 from requests import HTTPError
 
+from statsapiclient.box_score import BoxScore
 from statsapiclient.line_score import LineScore
 from statsapiclient.plays import Plays
 from statsapiclient.summary import Summary
@@ -12,7 +13,7 @@ from statsapiclient.utils import fetch_json
 class Game:
     """Score and play data for a particular NHL game.
     Args:
-        :game_pk: The game primary key
+        :game_pk: The game's primary key.
     """
     def __init__(self, game_pk):
         self.game_pk = game_pk
@@ -25,16 +26,59 @@ class Game:
 
             # Build game data objects - we expect a KeyError if the
             # data cannot be found in the parsed dict.
-            self.line_score = LineScore(self.json["liveData"]["linescore"])
-            self.plays = Plays(self.json["liveData"]["plays"])
-            # self.line_score = BoxScore(self.json["liveData"]["linescore"])
+            self.box_score = self.__build_box_score()
+            self.line_score = self.__build_line_score()
+            self.plays = self.__build_plays()
         except HTTPError as error:
             raise error
         except KeyError as error:
             raise error
 
+    def __build_box_score(self):
+        """Parses linescore data into LineScore dataclass."""
+        box_score_data = self.json["liveData"]["boxscore"]
+
+        try:
+            box_score = BoxScore(box_score_data)
+        except KeyError as error:
+            raise error
+
+        return box_score
+
+    def __build_line_score(self):
+        """Parses linescore data into LineScore dataclass."""
+        line_score_data = self.json["liveData"]["linescore"]
+
+        try:
+            line_score = LineScore(
+                line_score_data["currentPeriod"],
+                line_score_data["currentPeriodOrdinal"],
+                line_score_data["currentPeriodTimeRemaining"],
+                line_score_data["hasShootout"],
+                line_score_data["intermissionInfo"]["isIntermission"],
+                line_score_data["powerPlayStrength"]
+            )
+        except KeyError as error:
+            raise error
+
+        return line_score
+
+    def __build_plays(self):
+        """Builds and returns Plays object."""
+        try:
+            plays = Plays(self.json["liveData"]["plays"])
+        except KeyError as error:
+            raise error
+
+        return plays
+
     def get_summary(self):
-        """Gets game summary data dict."""
+        """Gets game summary data dict.
+        .. deprecated:: 1.0.0
+        TODO:
+        Maybe write examples on how to achieve this from core
+        modules rather than build to such a specific case.
+        """
         penalty_plays = self.plays.get_penalty_plays()
         scoring_plays = self.plays.get_scoring_plays()
         summary = Summary(penalty_plays, scoring_plays).game_summary
