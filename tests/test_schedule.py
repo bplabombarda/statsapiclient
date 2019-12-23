@@ -49,14 +49,14 @@ class TestSchedule:
     def test_validate_date_invalid(self):
         with pytest.raises(ValueError) as excinfo:
             Schedule.validate_date('09-09-1999')
-        assert "Incorrect data format" in str(excinfo.value)
+        assert "Incorrect date format" in str(excinfo.value)
 
     def test_validate_date_invalid_again(self):
         with pytest.raises(ValueError) as excinfo:
             Schedule.validate_date('09/09/1999')
-        assert "Incorrect data format" in str(excinfo.value)
+        assert "Incorrect date format" in str(excinfo.value)
 
     def test_validate_date_invalid_againer(self):
         with pytest.raises(ValueError) as excinfo:
             Schedule.validate_date('')
-        assert "Incorrect data format" in str(excinfo.value)
+        assert "Incorrect date format" in str(excinfo.value)

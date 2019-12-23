@@ -26,7 +26,10 @@ def fetch_json(endpoint, params=None):
     """
     try:
         headers = dict(HEADERS)
-        response = get(f"{API_HOST}/{endpoint}", params, headers)
+        response = get(
+            f"{API_HOST}/{endpoint}",
+            params=params,
+            headers=headers)
         response.raise_for_status()
 
         return response.json()
