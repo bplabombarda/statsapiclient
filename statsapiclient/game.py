@@ -1,5 +1,5 @@
 """This class allows retrieval of game data as different
-types and layouts of said data."""
+types and layouts of the game data."""
 
 from requests import HTTPError
 

@@ -6,15 +6,23 @@ from statsapiclient.constants import API_HOST, HEADERS
 
 
 def fetch_json(endpoint, params=None):
-    """
-    Helper function to fetch JSON data.
-    Args:
-        endpoint (str): resource endpoint
-        params (dict): query parameters
-    Raises:
-        HTTPError: if requests does not return 200
-    Returns:
-        json: JSON object for selected API call.
+    """Helper function to fetch JSON data.
+
+    Parameters
+    ----------
+    endpoint : str
+        The target resource endpoint.
+    params : dict
+        Query parameters in dict form.
+
+    Returns
+    -------
+    json : dict
+        Payload for selected API call.
+
+    Raises
+    ------
+    HTTPError: if requests does not return 200.`
     """
     try:
         headers = dict(HEADERS)
