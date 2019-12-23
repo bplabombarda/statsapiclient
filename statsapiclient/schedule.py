@@ -4,8 +4,8 @@ date or date range."""
 
 from datetime import datetime
 
-from .constants import SCHEDULE_PARAMS, SCHEDULE_DATE_FORMAT
-from .utils import fetch_json
+from statsapiclient.constants import SCHEDULE_PARAMS, SCHEDULE_DATE_FORMAT
+from statsapiclient.utils import fetch_json
 
 
 class Schedule:
@@ -15,6 +15,7 @@ class Schedule:
     ----------
     start_date : str
         Date string for start of range in the format 'YYYY-MM-DD'.
+
     end_date : str
         Date string for end of range in the format 'YYYY-MM-DD' (optional).
     """
@@ -38,10 +39,7 @@ class Schedule:
         Returns:
             list: flattened list of games in a given date range
         """
-        games = []
-
-        for date in self.data:
-            games += [game for game in date["games"]]
+        games = [game for date in self.data for game in date["games"]]
 
         return games
 
