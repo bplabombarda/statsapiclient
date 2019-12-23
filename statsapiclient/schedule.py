@@ -32,16 +32,10 @@ class Schedule:
         self.params["endDate"] = end_date if end_date else start_date
 
         json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.data = json["dates"]
+        self.games = []
 
-    def get_games(self):
-        """Gets a list of games compiled from a date or date range.
-        Returns:
-            list: flattened list of games in a given date range
-        """
-        games = [game for date in self.data for game in date["games"]]
-
-        return games
+        for date in json["dates"]:
+            self.games += [game for game in date["games"]]
 
     @staticmethod
     def validate_date(date):

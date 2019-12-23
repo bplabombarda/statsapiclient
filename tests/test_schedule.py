@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 
 from statsapiclient.schedule import Schedule
@@ -17,31 +19,29 @@ dates = [{
 
 
 class TestSchedule:
+    @patch("statsapiclient.utils.fetch_json", dates)
     def test_single_date(self):
         schedule = Schedule('2011-01-01')
 
         assert schedule.params["startDate"] == schedule.params["endDate"]
 
+    @patch("statsapiclient.utils.fetch_json", dates)
     def test_date_range(self):
         schedule = Schedule('2011-01-01', '2011-01-02')
 
         assert schedule.params["startDate"] != schedule.params["endDate"]
 
-    def test_single_date_get_games(self):
+    def test_single_date_games(self):
         schedule = Schedule('2011-01-01')
-        schedule.data = [dates[0]]
+        schedule.games = [dates[0]["games"]]
 
-        games = schedule.get_games()
-
-        assert len(games) == 2
+        assert len(schedule.games) == 1
 
     def test_multiple_dates_get_games(self):
         schedule = Schedule('2011-01-01', '2011-01-02')
-        schedule.data = dates
+        schedule.games = dates[0]["games"] + dates[1]["games"]
 
-        games = schedule.get_games()
-
-        assert len(games) == 4
+        assert len(schedule.games) == 4
 
     def test_validate_date_valid(self):
         assert Schedule.validate_date('1999-09-09') is True
