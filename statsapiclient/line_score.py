@@ -1,18 +1,14 @@
-"""This class provides access to linescore data
+"""This class provides access to line score data
 given a dict of game data."""
+from dataclasses import dataclass
 
 
+@dataclass
 class LineScore:
-    """
-    Gets linescore data.
-    Args:
-        :data: Raw linescore object
-    """
-
-    def __init__(self, data):
-        self.current_period = data["currentPeriod"]
-        self.current_period_display = data["currentPeriodOrdinal"]
-        self.current_period_time_remaining = data["currentPeriodTimeRemaining"]
-        self.is_at_intermission = data["intermissionInfo"]["isIntermission"]
-        self.has_shootout = data["hasShootout"]
-        self.power_play_strength = data["powerPlayStrength"]
+    """Dataclass to hold line score data."""
+    current_period: int
+    current_period_display: str
+    current_period_time_remaining: str
+    has_shootout: bool
+    is_at_intermission: bool
+    power_play_strength: str

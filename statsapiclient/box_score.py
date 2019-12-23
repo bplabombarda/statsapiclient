@@ -1,9 +1,9 @@
-class BoxScore:
-    """
-    Gets boxscore data.
-    Args:
-        :data: Raw boxscore object
-    """
+"""This class provides access to box score data
+given a dict of game data."""
+from dataclasses import dataclass
 
-    def __init__(self, data):
-        self.data = data
+
+@dataclass
+class BoxScore:
+    """Dataclass to hold box score data."""
+    data: dict
