@@ -10,11 +10,14 @@ from .utils import fetch_json
 
 class Schedule:
     """Schedule of all games on a given date or within a given date range.
-    Args:
-        :start_date: Date string in the format 'YYYY-MM-DD'
-        :end_date: Date string in the format 'YYYY-MM-DD' (optional)
-    """
 
+    Parameters
+    ----------
+    start_date : str
+        Date string for start of range in the format 'YYYY-MM-DD'.
+    end_date : str
+        Date string for end of range in the format 'YYYY-MM-DD' (optional).
+    """
     def __init__(self, start_date, end_date=None):
         self.endpoint = "api/v1/schedule"
         self.params = {"expand": SCHEDULE_PARAMS}
@@ -52,4 +55,4 @@ class Schedule:
             format_display = SCHEDULE_DATE_FORMAT.get('display')
 
             raise ValueError(
-                f"Incorrect data format, should be {format_display}")
+                f"Incorrect date format, should be {format_display}")
