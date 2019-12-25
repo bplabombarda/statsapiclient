@@ -19,63 +19,50 @@ class Game:
         self.game_pk = game_pk
         self.endpoint = f"api/v1/game/{game_pk}/feed/live"
 
-        try:
-            # Fetch json data for this game - we expect a HTTPError
-            # if this is not successful.
-            self.json = fetch_json(self.endpoint)
+        # Fetch json data for this game - we expect a HTTPError
+        # if this is not successful.
+        self.json = fetch_json(self.endpoint)
 
-            # Build game data objects - we expect a KeyError if the
-            # data cannot be found in the parsed dict.
-            self.box_score = self.__build_box_score()
-            self.line_score = self.__build_line_score()
-            self.plays = self.__build_plays()
-        except HTTPError as error:
-            raise error
-        except KeyError as error:
-            raise error
+        # Build game data objects - we expect a KeyError if the
+        # data cannot be found in the parsed dict.
+        self.box_score = self.__build_box_score()
+        self.line_score = self.__build_line_score()
+        self.plays = self.__build_plays()
+
+    def __repr__(self):
+        return f"<Game game_pk={self.game_pk}>"
 
     def __build_box_score(self):
         """Parses linescore data into LineScore dataclass."""
         box_score_data = self.json["liveData"]["boxscore"]
-
-        try:
-            box_score = BoxScore(box_score_data)
-        except KeyError as error:
-            raise error
+        box_score = BoxScore(box_score_data)
 
         return box_score
 
     def __build_line_score(self):
         """Parses linescore data into LineScore dataclass."""
         line_score_data = self.json["liveData"]["linescore"]
-
-        try:
-            line_score = LineScore(
-                line_score_data["currentPeriod"],
-                line_score_data["currentPeriodOrdinal"],
-                line_score_data["currentPeriodTimeRemaining"],
-                line_score_data["hasShootout"],
-                line_score_data["intermissionInfo"]["isIntermission"],
-                line_score_data["powerPlayStrength"]
-            )
-        except KeyError as error:
-            raise error
+        line_score = LineScore(
+            line_score_data["currentPeriod"],
+            line_score_data["currentPeriodOrdinal"],
+            line_score_data["currentPeriodTimeRemaining"],
+            line_score_data["hasShootout"],
+            line_score_data["intermissionInfo"]["isIntermission"],
+            line_score_data["powerPlayStrength"]
+        )
 
         return line_score
 
     def __build_plays(self):
         """Builds and returns Plays object."""
-        try:
-            play_data = self.json["liveData"]["plays"]
-            plays = Plays(
-                play_data["allPlays"],
-                play_data["currentPlay"],
-                play_data["penaltyPlays"],
-                play_data["scoringPlays"],
-                play_data["playsByPeriod"]
-            )
-        except KeyError as error:
-            raise error
+        play_data = self.json["liveData"]["plays"]
+        plays = Plays(
+            play_data["allPlays"],
+            play_data["currentPlay"],
+            play_data["penaltyPlays"],
+            play_data["scoringPlays"],
+            play_data["playsByPeriod"]
+        )
 
         return plays
 
@@ -90,6 +77,3 @@ class Game:
         summary = Summary(penalty_plays, scoring_plays).game_summary
 
         return summary
-
-    def __repr__(self):
-        return f"<Game game_pk=${self.game_pk}>"
