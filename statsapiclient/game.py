@@ -1,8 +1,6 @@
 """This class allows retrieval of game data as different
 types and layouts of the game data."""
 
-from requests import HTTPError
-
 from statsapiclient.box_score import BoxScore
 from statsapiclient.line_score import LineScore
 from statsapiclient.plays import Plays
