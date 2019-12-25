@@ -1,8 +1,10 @@
-"""This class holds all play data and contains the methods
+"""This dataclass holds all play data and contains the methods
 to get and section said data.
 """
+from dataclasses import dataclass
 
 
+@dataclass
 class Plays:
     """
     This is where the play data happens.
@@ -12,22 +14,20 @@ class Plays:
     data : dict
         Raw play data dict.
     """
-
-    def __init__(self, data):
-        self.all_plays = data["allPlays"]
-        self.current_play = data["currentPlay"]
-
-        self.penalty_indicies = data["penaltyPlays"]
-        self.scoring_indicies = data["scoringPlays"]
-        self.play_indicies_by_period = data["playsByPeriod"]
+    all_plays: list
+    current_play: dict
+    penalty_indicies: list
+    scoring_indicies: list
+    play_indicies_by_period: dict
 
     def get_plays_by_period(self, period):
         """Get plays by period.
+
         Parameters
         ----------
         period : int
-            Integer representation of the period. One of 1, 2, 3,
-            or 4 for overtime.
+            Integer representation of the period.
+            One of 1, 2, 3, or 4 (for overtime).
 
         Returns
         -------
@@ -35,7 +35,6 @@ class Plays:
             A filtered list of all plays whose index appear in the
             periods play index range.
         """
-
         def filter_by_period(play):
             """Helper function to pass to the filter."""
             play_index = play["about"]["eventIdx"]
@@ -44,6 +43,9 @@ class Plays:
             end_index = period_plays["endIndex"]
 
             return start_index <= play_index <= end_index
+
+        if period not in (1, 2, 3, 4):
+            raise ValueError("Period value should be 1, 2, 3, or 4")
 
         plays_in_period = list(filter(filter_by_period, self.all_plays))
 

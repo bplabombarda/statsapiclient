@@ -81,7 +81,6 @@ class Game:
 
     def get_summary(self):
         """Gets game summary data dict.
-        .. deprecated:: 1.0.0
         TODO:
         Maybe write examples on how to achieve this from core
         modules rather than build to such a specific case.
