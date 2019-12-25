@@ -66,7 +66,14 @@ class Game:
     def __build_plays(self):
         """Builds and returns Plays object."""
         try:
-            plays = Plays(self.json["liveData"]["plays"])
+            play_data = self.json["liveData"]["plays"]
+            plays = Plays(
+                play_data["allPlays"],
+                play_data["currentPlay"],
+                play_data["penaltyPlays"],
+                play_data["scoringPlays"],
+                play_data["playsByPeriod"]
+            )
         except KeyError as error:
             raise error
 
