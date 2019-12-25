@@ -1,4 +1,4 @@
-from statsapiclient.game.summary import Summary
+from statsapiclient.summary import Summary
 
 game_obj = {
     "liveData": {
