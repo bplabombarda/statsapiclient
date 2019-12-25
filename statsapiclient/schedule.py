@@ -29,7 +29,4 @@ class Schedule:
         self.params["endDate"] = end_date if end_date else start_date
 
         json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.games = []
-
-        for date in json["dates"]:
-            self.games += [game for game in date["games"]]
+        self.games = [game for date in json["dates"] for game in date["games"]]
