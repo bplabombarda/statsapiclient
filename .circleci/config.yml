@@ -92,7 +92,10 @@ workflows:
 
   build-and-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
 
       - approve-test:
           type: approval
