@@ -49,13 +49,14 @@ jobs:
 
       - run:
           name: Move Build for Persistence
-          command: mv dist workspace
+          command: mv dist pyproject.toml workspace
 
       - persist_to_workspace:
           root: workspace
 
           paths:
             - dist
+            - pyproject.toml
 
   deploy-test:
     executor: statsapiclient-executor
@@ -66,11 +67,11 @@ jobs:
 
       - run:
           name: Move Build for Publish
-          command: mv workspace/dist .
+          command: mv workspace/* .
 
       - run:
           name: Publish to test.pypi
-          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ workspace/dist/*
+          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
 
   deploy:
     executor: statsapiclient-executor
