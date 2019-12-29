@@ -16,20 +16,30 @@ To provide a Python client to access the NHL's JSON API including game, play, an
 
 ### Schedule
 
-`get_games`
+`games`
 
-Returns a list of games contained within the instantiated date or date range.
+A list of games contained within the instantiated date or date range.
 
 
 ### Games
 
 #### game
 
-`get_box_score`
+`json`
 
-`get_line_score`
+Raw JSON response data.
 
-`get_play_by_play`
+`box_score`
+
+Box score object.
+
+`line_score`
+
+Line score object.
+
+`plays`
+
+Plays object.
 
 
 ### Teams
@@ -55,9 +65,7 @@ Games from date:
 
 
     s = Schedule('2019-01-01')
-    games = s.get_games()
-
-    print(games[0]['gamePk'])    # 2018020612
+    print(s.games[0]['gamePk'])    # 2018020612
 
 Game data:
 
@@ -65,6 +73,13 @@ Game data:
 
     g = Game('2018020612')
 
-    box_score = g.get_box_score()
-    line_score = g.get_line_score()
-    play_by_play = g.get_play_by_play()
+    box_score = g.box_score
+    line_score = g.line_score
+    play_by_play = g.plays
+
+Play data:
+
+    g.plays.all_plays                   # All plays
+    g.plays.get_plays_by_period(1)      # All plays in the first period
+    g.plays.get_penalty_plays()         # All penalty plays
+    g.plays.get_scoring_plays()         # All scoring plays
