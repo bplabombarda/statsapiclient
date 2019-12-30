@@ -1,5 +1,7 @@
 # statsapiclient: A client for the NHL stats API
 
+[![PyPI version](https://badge.fury.io/py/statsapiclient.svg)](https://pypi.org/project/statsapiclient)
+
 [![CircleCI](https://circleci.com/gh/bplabombarda/statsapiclient.svg?style=svg)](https://circleci.com/gh/bplabombarda/statsapiclient)
 
 ## Purpose
