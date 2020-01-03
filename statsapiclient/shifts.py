@@ -31,5 +31,5 @@ class Shift:
         return f"<Shift game_pk={self.game_pk}>"
 
     def parse_shift_report(self, raw_html):
-        
+
         return
