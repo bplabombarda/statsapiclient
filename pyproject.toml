@@ -4,7 +4,7 @@ version = "0.1.4"
 description = "A wrapper around the NHL’s JSON API."
 homepage="https://github.com/bplabombarda/statsapiclient"
 repository="https://github.com/bplabombarda/statsapiclient"
-documentation="https://github.com/bplabombarda/statsapiclient#README.rst"
+documentation="https://github.com/bplabombarda/statsapiclient#README.md"
 license="MPL-2.0"
 authors = ["Brett LaBombarda <bplabombarda@gmail.com>"]
 readme = "README.md"
@@ -23,7 +23,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 requests = "^2.22"
 beautifulsoup4 = "^4.8.2"
 

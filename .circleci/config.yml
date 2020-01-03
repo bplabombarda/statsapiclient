@@ -16,7 +16,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
+            - deps-{{ checksum "poetry.lock" }}
 
       - run:
           name: Install System Dependencies
@@ -27,9 +27,9 @@ jobs:
           command: poetry install
 
       - save_cache:
-          key: venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
+          key: deps-{{ checksum "poetry.lock" }}
           paths:
-            - .venv
+            - /home/circleci/.cache/pypoetry/virtualenvs
 
       - run:
           name: Run Linter
