@@ -13,19 +13,19 @@ from statsapiclient.constants import (
 
 def create_request(url, params={}):
     """Generic request function.
-    
+
     Parameters
     ----------
     url : str
         The URL to which the request will be sent.
     params : dict
         Query parameters in dict form.
-        
+
     Returns
     -------
     response : obj
         Response object.
-        
+
     Raises
     ------
     HTTPError: if requests does not return 200.`

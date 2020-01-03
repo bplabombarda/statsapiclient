@@ -25,6 +25,7 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 requests = "^2.22"
+beautifulsoup4 = "^4.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
