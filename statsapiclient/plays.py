@@ -5,9 +5,8 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Plays:
-    """
-    This is where the play data happens.
+class Play:
+    """This is where the play data happens.
 
     Parameters
     ----------

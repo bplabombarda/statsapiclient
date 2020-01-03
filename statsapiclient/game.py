@@ -3,7 +3,8 @@ types and layouts of the game data."""
 
 from statsapiclient.box_score import BoxScore
 from statsapiclient.line_score import LineScore
-from statsapiclient.plays import Plays
+from statsapiclient.plays import Play
+from statsapiclient.shifts import Shift
 from statsapiclient.summary import Summary
 from statsapiclient.utils import fetch_json
 
@@ -20,6 +21,7 @@ class Game:
         self.box_score = self.__build_box_score()
         self.line_score = self.__build_line_score()
         self.plays = self.__build_plays()
+        self.shifts = Shift(game_pk)
 
     def __repr__(self):
         return f"<Game game_pk={self.game_pk}>"
@@ -46,9 +48,9 @@ class Game:
         return line_score
 
     def __build_plays(self):
-        """Builds and returns Plays object."""
+        """Builds and returns Play object."""
         play_data = self.json["liveData"]["plays"]
-        plays = Plays(
+        plays = Play(
             play_data["allPlays"],
             play_data["currentPlay"],
             play_data["penaltyPlays"],

@@ -41,10 +41,10 @@ Line score object.
 
 `plays`
 
-Plays object.
+Play object.
 
 
-### Teams
+### Team
 
 `get_active`
 
