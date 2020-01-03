@@ -1,6 +1,8 @@
 """This class holds all shift data and contains
  methods to access it.
 """
+from bs4 import BeautifulSoup
+
 from statsapiclient.constants import SEASON_YEARS
 from statsapiclient.utils import fetch_html
 
@@ -31,5 +33,5 @@ class Shift:
         return f"<Shift game_pk={self.game_pk}>"
 
     def parse_shift_report(self, raw_html):
-
-        return
+        soup = BeautifulSoup(raw_html, 'html.parser')
+        return soup

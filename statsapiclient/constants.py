@@ -11,6 +11,8 @@ HEADERS = {
     "referer": ("https://www.nhl.com/"),
 }
 
+PK_PATTERN = r"(^\d{4})(\d{6})"
+
 SCHEDULE_PARAMS = "schedule.teams,schedule.linescore,schedule.decisions,schedule.scoringplays"
 
 SCHEDULE_DATE_FORMAT = {
