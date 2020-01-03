@@ -17,21 +17,22 @@ class Shift:
     """
     def __init__(self, game_pk):
         # TODO: make a `year_from_pk` utility.
-        year = SEASON_YEARS.get(game_pk[:4])
-        pk = game_pk[4:]
+        self.full_key = game_pk
+        self.year = SEASON_YEARS.get(self.full_key[:4])
+        self.pk = self.full_key[4:]
 
-        away_url = f"/scores/htmlreports/{year}/TV{pk}.HTM"
-        home_url = f"/scores/htmlreports/{year}/TH{pk}.HTM"
+        self.away_url = f"/scores/htmlreports/{self.year}/TV{self.pk}.HTM"
+        self.home_url = f"/scores/htmlreports/{self.year}/TH{self.pk}.HTM"
 
-        self.away_raw = fetch_html(away_url)
-        self.home_raw = fetch_html(home_url)
+        self.away_raw = fetch_html(self.away_url)
+        self.home_raw = fetch_html(self.home_url)
 
         self.away_toi = self.parse_shift_report(self.away_raw)
         self.home_toi = self.parse_shift_report(self.home_raw)
 
     def __repr__(self):
-        return f"<Shift game_pk={self.game_pk}>"
+        return f"<Shift full_key={self.full_key}>"
 
     def parse_shift_report(self, raw_html):
-        soup = BeautifulSoup(raw_html, 'html.parser')
+        soup = BeautifulSoup(raw_html, "html.parser")
         return soup
