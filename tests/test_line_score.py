@@ -1,7 +1,7 @@
 from statsapiclient.line_score import LineScore
 
 
-mock_box_score = {
+mock_line_score = {
     "current_period": 1,
     "current_period_display": "1st",
     "current_period_time_remaining": "20:00",
@@ -11,9 +11,9 @@ mock_box_score = {
 }
 
 
-class TestBoxScore:
-    def test_instantiate_box_score(self):
-        line_score = LineScore(**mock_box_score)
+class TestLineScore:
+    def test_instantiate_line_score(self):
+        line_score = LineScore(**mock_line_score)
 
         assert line_score.current_period == 1
         assert line_score.current_period_display == "1st"

@@ -4,7 +4,7 @@ division, or all active teams."""
 from .utils import fetch_json
 
 
-class Teams:
+class Team:
     """Lists of NHL teams by conference or division.
     """
 

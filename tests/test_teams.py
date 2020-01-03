@@ -1,4 +1,4 @@
-from statsapiclient.teams import Teams
+from statsapiclient.teams import Team
 
 mock_teams = [
     {
@@ -31,16 +31,16 @@ mock_teams = [
 ]
 
 
-class TestTeams:
+class TestTeam:
     def test_get_active(self):
-        teams = Teams()
+        teams = Team()
         teams.data = mock_teams
         active = teams.get_active()
 
         assert active == mock_teams[:2]
 
     def test_get_active_by_conference(self):
-        teams = Teams()
+        teams = Team()
         teams.data = mock_teams
         by_conference = teams.get_active_by_conference()
 
@@ -52,7 +52,7 @@ class TestTeams:
         assert by_conference == expected
 
     def test_get_active_by_division(self):
-        teams = Teams()
+        teams = Team()
         teams.data = mock_teams
         by_division = teams.get_active_by_division()
 
