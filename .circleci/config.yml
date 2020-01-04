@@ -68,7 +68,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - deps-{{ checksum "poetry.lock" }}
+            - deps-{{ checksum "workspace/poetry.lock" }}
             - deps-
 
       - run:
