@@ -47,16 +47,13 @@ jobs:
           name: Create Workspace
           command: mkdir -p workspace
 
-      - run:
-          name: Move Build for Persistence
-          command: mv dist pyproject.toml workspace
-
       - persist_to_workspace:
           root: workspace
 
           paths:
-            - dist
+            - dist/
             - pyproject.toml
+            - poetry.lock
 
   deploy-test:
     executor: statsapiclient-executor
@@ -65,13 +62,15 @@ jobs:
       - attach_workspace:
           at: workspace
 
-      - run:
-          name: Move Build for Publish
-          command: mv workspace/* .
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "poetry.lock" }}
+            - deps-
 
       - run:
           name: Publish to test.pypi
           command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
+          working_directory: workspace
 
   deploy:
     executor: statsapiclient-executor
@@ -80,13 +79,15 @@ jobs:
       - attach_workspace:
           at: workspace
 
-      - run:
-          name: Move Build for Publish
-          command: mv workspace/dist .
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "poetry.lock" }}
+            - deps-
 
       - run:
           name: Publish to pypi
           command: poetry publish --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+          working_directory: workspace
 
 workflows:
   version: 2
