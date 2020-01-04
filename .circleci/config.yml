@@ -130,12 +130,13 @@ workflows:
           type: approval
           requires:
             - deploy-test
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
 
-      - deploy:
+      - deploy-prod:
           requires:
             - approve-prod
           filters:
