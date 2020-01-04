@@ -26,10 +26,11 @@ jobs:
           name: Install Project Dependencies
           command: poetry install
 
-      - save_cache:
-          key: deps-{{ checksum "poetry.lock" }}
+      - persist_to_workspace:
+          root: ~/.circleci/.cache/pypoetry/virtualenvs/
+
           paths:
-            - /home/circleci/.cache/pypoetry/virtualenvs
+          - statsapiclient-*
 
       - run:
           name: Run Linter
