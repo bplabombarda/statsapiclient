@@ -16,7 +16,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
+            - deps-{{ checksum "poetry.lock" }}
 
       - run:
           name: Install System Dependencies
@@ -27,9 +27,9 @@ jobs:
           command: poetry install
 
       - save_cache:
-          key: venv-{{ .Environment.PY_VERSION }}-{{ .Branch }}-{{ checksum "poetry.lock" }}
+          key: deps-{{ checksum "poetry.lock" }}
           paths:
-            - .venv
+            - /home/circleci/.cache/pypoetry/virtualenvs
 
       - run:
           name: Run Linter
@@ -48,15 +48,16 @@ jobs:
           command: mkdir -p workspace
 
       - run:
-          name: Move Build for Persistence
-          command: mv dist pyproject.toml workspace
+          name: Move files to Workspace
+          command: cp -r pyproject.toml poetry.lock dist/ workspace
 
       - persist_to_workspace:
           root: workspace
 
           paths:
-            - dist
+            - dist/
             - pyproject.toml
+            - poetry.lock
 
   deploy-test:
     executor: statsapiclient-executor
@@ -65,13 +66,15 @@ jobs:
       - attach_workspace:
           at: workspace
 
-      - run:
-          name: Move Build for Publish
-          command: mv workspace/* .
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "poetry.lock" }}
+            - deps-
 
       - run:
           name: Publish to test.pypi
           command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
+          working_directory: workspace
 
   deploy:
     executor: statsapiclient-executor
@@ -80,13 +83,15 @@ jobs:
       - attach_workspace:
           at: workspace
 
-      - run:
-          name: Move Build for Publish
-          command: mv workspace/dist .
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "poetry.lock" }}
+            - deps-
 
       - run:
           name: Publish to pypi
           command: poetry publish --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+          working_directory: workspace
 
 workflows:
   version: 2
@@ -121,6 +126,10 @@ workflows:
           type: approval
           requires:
            - deploy-test
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
 
       - deploy:
           requires:
