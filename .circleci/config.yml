@@ -49,7 +49,7 @@ jobs:
 
       - run:
           name: Move files to Workspace
-          command: cp pyproject.toml poetry.lock dist/ workspace
+          command: cp -r pyproject.toml poetry.lock dist/ workspace
 
       - persist_to_workspace:
           root: workspace
