@@ -129,7 +129,7 @@ workflows:
       - approve-prod:
           type: approval
           requires:
-           - deploy-test
+            - deploy-test
           tags:
             only: /^v.*/
           branches:
