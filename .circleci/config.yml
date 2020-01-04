@@ -27,7 +27,7 @@ jobs:
           command: poetry install
 
       - persist_to_workspace:
-          root: ~/.circleci/.cache/pypoetry/virtualenvs/
+          root: ~/.cache/pypoetry/virtualenvs/
 
           paths:
           - statsapiclient-*
