@@ -26,11 +26,10 @@ jobs:
           name: Install Project Dependencies
           command: poetry install
 
-      - persist_to_workspace:
-          root: ~/.cache/pypoetry/virtualenvs/
-
+      - save_cache:
+          key: deps-{{ checksum "poetry.lock" }}
           paths:
-          - statsapiclient-*
+            - /home/circleci/.cache/pypoetry/virtualenvs
 
       - run:
           name: Run Linter
@@ -67,10 +66,6 @@ jobs:
       - attach_workspace:
           at: workspace
 
-      - run:
-          name: Move lockfile
-          command: cp workspace/poetry.lock .
-
       - restore_cache:
           keys:
             - deps-{{ checksum "poetry.lock" }}
@@ -78,8 +73,7 @@ jobs:
 
       - run:
           name: Publish to test.pypi
-          command: poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
-          working_directory: workspace
+          command: cd workspace && poetry run twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --repository-url https://test.pypi.org/legacy/ dist/*
 
   deploy:
     executor: statsapiclient-executor
@@ -87,10 +81,6 @@ jobs:
     steps:
       - attach_workspace:
           at: workspace
-
-      - run:
-          name: Move lockfile
-          command: cp workspace/poetry.lock .
 
       - restore_cache:
           keys:
