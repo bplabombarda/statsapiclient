@@ -77,7 +77,7 @@ jobs:
 
       - run:
           name: Publish to test.pypi
-          command: poetry publish -r test --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction
+          command: cd workspace && poetry publish -r test --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction
 
   deploy:
     executor: statsapiclient-executor
