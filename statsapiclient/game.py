@@ -41,7 +41,7 @@ class Game:
             line_score_data["currentPeriodOrdinal"],
             line_score_data["currentPeriodTimeRemaining"],
             line_score_data["hasShootout"],
-            line_score_data["intermissionInfo"]["isIntermission"],
+            line_score_data["intermissionInfo"]["inIntermission"],
             line_score_data["powerPlayStrength"]
         )
 
