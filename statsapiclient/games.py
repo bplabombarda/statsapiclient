@@ -11,8 +11,34 @@ from statsapiclient.utils import fetch_json
 
 class Game:
     """Score and play data for a particular NHL game.
-    Args:
-        :game_pk: The game's primary key.
+    
+    Parameters
+    ----------
+    game_pk : str
+        The game's primary key.
+
+    Properties
+    ----------
+    game_pk : str
+        Primary key of the game.
+
+    endpoint : str
+        The API game endpoint for the game_pk passed.
+
+    json : dict
+        The raw response from the API endpoint.
+
+    box_score : BoxScore
+        A BoxScore object created from the game's data.
+
+    line_score : LineScore
+        A LineScore object created from the game's data.
+
+    plays : Play
+        A Play object created from the game's gata.
+
+    shifts : Shift
+        A Shift object created from the game's data.
     """
     def __init__(self, game_pk):
         self.game_pk = game_pk
