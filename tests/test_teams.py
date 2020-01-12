@@ -1,3 +1,5 @@
+from unittest import TestCase
+
 from statsapiclient.teams import Team
 
 mock_teams = [
@@ -31,13 +33,13 @@ mock_teams = [
 ]
 
 
-class TestTeam:
+class TestTeam(TestCase):
     def test_get_active(self):
         teams = Team()
         teams.data = mock_teams
         active = teams.get_active()
 
-        assert active == mock_teams[:2]
+        self.assertEqual(active, mock_teams[:2])
 
     def test_get_active_by_conference(self):
         teams = Team()
@@ -49,7 +51,7 @@ class TestTeam:
             "conf_b": [mock_teams[1]],
         }
 
-        assert by_conference == expected
+        self.assertEqual(by_conference, expected)
 
     def test_get_active_by_division(self):
         teams = Team()
@@ -61,4 +63,4 @@ class TestTeam:
             "div_b": [mock_teams[1]],
         }
 
-        assert by_division == expected
+        self.assertEqual(by_division, expected)
