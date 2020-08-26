@@ -1,12 +1,14 @@
+"""Unit tests for the shifts module."""
 from unittest import TestCase
 from unittest.mock import patch
 
 from statsapiclient.shifts import Shift
 
 
+@patch("statsapiclient.shifts.fetch_html")
+@patch("statsapiclient.shifts.BeautifulSoup")
 class TestShift(TestCase):
-    @patch("statsapiclient.shifts.fetch_html")
-    @patch("statsapiclient.shifts.BeautifulSoup")
+    """Unit tests for the Shift class."""
     def test_instantiate_shift(self, mock_fetch, MockSoup):
         shift = Shift("2000123456")
 
@@ -16,8 +18,6 @@ class TestShift(TestCase):
         self.assertEqual(shift.away_url, expected_away)
         self.assertEqual(shift.home_url, expected_home)
 
-    @patch("statsapiclient.shifts.fetch_html")
-    @patch("statsapiclient.shifts.BeautifulSoup")
     def test_repr(self, mock_fetch, MockSoup):
         shift = Shift("2000123456")
 

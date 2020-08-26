@@ -21,7 +21,7 @@ class Play:
 
     scoring_indicies : list
         List of indicies of scoring plays.
-    
+
     play_indicies_by_period : dict
         Dictionay of period dicts containing plays and start and end indicies.
     """
