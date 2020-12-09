@@ -1,4 +1,4 @@
-name: Test
+name: Unit Tests
 
 on: [pull_request]
 
@@ -7,6 +7,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         python-version: [3.7, 3.8]
@@ -21,3 +22,11 @@ jobs:
 
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
+
+    - name: Run image
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
+
+    - name: View poetry --help
+      run: poetry --help
