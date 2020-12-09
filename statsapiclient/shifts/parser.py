@@ -90,6 +90,7 @@ class ShiftReportParser:
         Returns:
             dict: A dict of player shifts.
         """
+
         for row in raw_toi_data:
             row_contents = self.remove_new_lines(row.contents)
             row_classes = row.attrs.get("class", ())
@@ -113,4 +114,5 @@ class ShiftReportParser:
         Returns:
             list (obj): A list of element objects.
         """
+
         return [item for item in contents if item != "\n"]
