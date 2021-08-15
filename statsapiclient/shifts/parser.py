@@ -85,7 +85,7 @@ class ShiftReportParser:
         """Parses each row of shift data.
 
         Args:
-            raw_toi_data (list): A list of row objects. 
+            raw_toi_data (list): A list of row objects.
 
         Returns:
             dict: A dict of player shifts.

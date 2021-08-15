@@ -33,8 +33,8 @@ def create_request(url, params=None):
         response.raise_for_status()
 
         return response
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def fetch_html(endpoint, params=None):
@@ -55,8 +55,8 @@ def fetch_html(endpoint, params=None):
         response = create_request(url, params)
 
         return response.text
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def fetch_json(endpoint, params=None):
@@ -77,8 +77,8 @@ def fetch_json(endpoint, params=None):
         response = create_request(url, params)
 
         return response.json()
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def validate_date(date):
@@ -91,8 +91,8 @@ def validate_date(date):
         datetime.strptime(date, SCHEDULE_DATE_FORMAT.get('format'))
 
         return True
-    except ValueError:
+    except ValueError as err:
         format_display = SCHEDULE_DATE_FORMAT.get('display')
 
         raise ValueError(
-            f"Incorrect date format, should be {format_display}")
+            f"Incorrect date format, should be {format_display}") from err

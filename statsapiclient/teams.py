@@ -11,17 +11,17 @@ class Team:
     endpoint = "api/v1/teams"
 
     def __init__(self):
-        json = fetch_json(endpoint=endpoint)
         self.data = []
 
-        for n in ([i for i in range(0, 110)] + [5524, 5814, 5844, 7202, 7460, 7461]):
-            res = fetch_json(f"{endpoint}/{n}")
+        for team_id in (list(range(0, 110)) + [5524, 5814, 5844, 7202, 7460, 7461]):
+            res = fetch_json(f"{self.endpoint}/{team_id}")
             teams = res.json().get("teams", ())
 
             self.data += teams
 
     def get_all(self):
         """Returns a list of all teams.
+
         Returns:
             list: all teams
         """
@@ -29,32 +29,29 @@ class Team:
 
     def get_active(self):
         """Returns a list of active teams.
+
         Returns:
             list: active teams
         """
         return list(filter(
             lambda team: team["active"] is True, self.data))
 
-    def get_by_id(self, id):
+    def get_by_id(self, team_id):
         """Gets team object by given id.
-        
+
         Args:
-            id (int): the team id
-            
+            team_id (int): the team id
+
         Returns:
             dict: the team dict
         """
 
-        matches = list(filter(lambda t: t["id"] == id, self.data))
-
-        if len(matches) > 1:
-            print(matches)
-            print("This shouldn't happen!")
+        matches = list(filter(lambda t: t["id"] == team_id, self.data))
 
         # return from existing data if we can
         if matches:
             return matches[0]
 
-        team_endpoint = f"{self.endpoint}/{id}"
+        team_endpoint = f"{self.endpoint}/{team_id}"
 
         return fetch_json(endpoint=team_endpoint)

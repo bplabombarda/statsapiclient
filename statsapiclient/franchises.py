@@ -15,31 +15,28 @@ class Franchise:
 
     def get_all(self):
         """Returns a list of all franchises.
+
         Returns:
             list: all franchises
         """
         return self.data
 
-    def get_by_id(self, id):
+    def get_by_id(self, franchise_id):
         """Gets franchise object by given id.
-        
+
         Args:
-            id (int): the franchise id
-            
+            franchise_id (int): the franchise id
+
         Returns:
             dict: the franchise dict
         """
 
-        matches = list(filter(lambda f: f["franchiseId"] == id, self.data))
-
-        if len(matches) > 1:
-            print(matches)
-            print("This shouldn't happen!")
+        matches = list(filter(lambda f: f["franchiseId"] == franchise_id, self.data))
 
         # return from existing data if we can
         if matches:
             return matches[0]
 
-        franchise_endpoint = f"{self.endpoint}/{id}"
+        franchise_endpoint = f"{self.endpoint}/{franchise_id}"
 
         return fetch_json(endpoint=franchise_endpoint)
