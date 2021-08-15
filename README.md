@@ -71,7 +71,7 @@ Games from date:
 
 Game data:
 
-    from statsapiclient.games.game import Game
+    from statsapiclient.games import Game
 
     g = Game('2018020612')
 

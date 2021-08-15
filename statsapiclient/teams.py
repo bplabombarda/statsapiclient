@@ -11,49 +11,47 @@ class Team:
     endpoint = "api/v1/teams"
 
     def __init__(self):
-        json = fetch_json(endpoint=self.endpoint)
-        self.data = json["teams"]
+        self.data = []
+
+        for team_id in (list(range(0, 110)) + [5524, 5814, 5844, 7202, 7460, 7461]):
+            res = fetch_json(f"{self.endpoint}/{team_id}")
+            teams = res.json().get("teams", ())
+
+            self.data += teams
+
+    def get_all(self):
+        """Returns a list of all teams.
+
+        Returns:
+            list: all teams
+        """
+        return self.data
 
     def get_active(self):
         """Returns a list of active teams.
+
         Returns:
             list: active teams
         """
         return list(filter(
             lambda team: team["active"] is True, self.data))
 
-    def get_active_by_conference(self):
-        """Returns a list of active teams by conference.
+    def get_by_id(self, team_id):
+        """Gets team object by given id.
+
+        Args:
+            team_id (int): the team id
+
         Returns:
-            list: active teams by conference
+            dict: the team dict
         """
-        conferences = {}
 
-        for team in self.data:
-            conference = team["conference"]["name"].lower()
+        matches = list(filter(lambda t: t["id"] == team_id, self.data))
 
-            if team["active"] is True:
-                if conference not in conferences:
-                    conferences[conference] = [team]
-                else:
-                    conferences[conference].append(team)
+        # return from existing data if we can
+        if matches:
+            return matches[0]
 
-        return conferences
+        team_endpoint = f"{self.endpoint}/{team_id}"
 
-    def get_active_by_division(self):
-        """Returns a list of active teams by division.
-        Returns:
-            list: active teams by division
-        """
-        divisions = {}
-
-        for team in self.data:
-            division = team["division"]["name"].lower()
-
-            if team["active"] is True:
-                if division not in divisions:
-                    divisions[division] = [team]
-                else:
-                    divisions[division].append(team)
-
-        return divisions
+        return fetch_json(endpoint=team_endpoint)

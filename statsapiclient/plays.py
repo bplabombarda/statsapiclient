@@ -10,8 +10,20 @@ class Play:
 
     Parameters
     ----------
-    data : dict
-        Raw play data dict.
+    all_plays : list
+        List of play dictionaries.
+
+    current_play : dict
+        Current play dictionary.
+
+    penalty_indicies : list
+        List of indicies of penalty plays.
+
+    scoring_indicies : list
+        List of indicies of scoring plays.
+
+    play_indicies_by_period : dict
+        Dictionay of period dicts containing plays and start and end indicies.
     """
     all_plays: list
     current_play: dict
@@ -30,8 +42,8 @@ class Play:
 
         Returns
         -------
-        plays_in_period : list
-            A filtered list of all plays whose index appear in the
+        list
+            A filtered list of all plays whose indicies appear in the
             periods play index range.
         """
         def filter_by_period(play):
@@ -51,7 +63,14 @@ class Play:
         return plays_in_period
 
     def get_penalty_plays(self):
-        """Gets a list of penalty plays."""
+        """Gets a list of penalty plays.
+
+        Returns
+        -------
+        list
+            A filtered list of all plays whose indicies appear in the
+            penalty_indicies list.
+        """
 
         def filter_penalties(play):
             """Helper function to filter penalty plays."""
@@ -62,7 +81,14 @@ class Play:
         return penalty_plays
 
     def get_scoring_plays(self):
-        """Gets a list of scoring plays."""
+        """Gets a list of scoring plays.
+
+        Returns
+        -------
+        list
+            A filtered list of all plays whose indicies appear in the
+            scoring_indicies list.
+        """
 
         def filter_scoring(play):
             """Helper function to filter scoring plays."""

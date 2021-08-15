@@ -1,3 +1,6 @@
+from unittest import TestCase
+from unittest.mock import patch
+
 from statsapiclient.teams import Team
 
 mock_teams = [
@@ -31,34 +34,11 @@ mock_teams = [
 ]
 
 
-class TestTeam:
-    def test_get_active(self):
+@patch("statsapiclient.teams.fetch_json")
+class TestTeam(TestCase):
+    def test_get_active(self, mock_fetch):
         teams = Team()
         teams.data = mock_teams
         active = teams.get_active()
 
-        assert active == mock_teams[:2]
-
-    def test_get_active_by_conference(self):
-        teams = Team()
-        teams.data = mock_teams
-        by_conference = teams.get_active_by_conference()
-
-        expected = {
-            "conf_a": [mock_teams[0]],
-            "conf_b": [mock_teams[1]],
-        }
-
-        assert by_conference == expected
-
-    def test_get_active_by_division(self):
-        teams = Team()
-        teams.data = mock_teams
-        by_division = teams.get_active_by_division()
-
-        expected = {
-            "div_a": [mock_teams[0]],
-            "div_b": [mock_teams[1]],
-        }
-
-        assert by_division == expected
+        self.assertEqual(active, mock_teams[:2])
