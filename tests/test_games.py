@@ -5,14 +5,14 @@ from statsapiclient.games import Game
 
 class TestGame:
     @patch("statsapiclient.games.fetch_json")
-    @patch("statsapiclient.games.Shift")
+    @patch("statsapiclient.games.Shifts")
     def test_instantiate_game(self, mock_fetch, MockShift):
         game = Game("2000123456")
 
         assert game.game_pk == "2000123456"
 
     @patch("statsapiclient.games.fetch_json")
-    @patch("statsapiclient.games.Shift")
+    @patch("statsapiclient.games.Shifts")
     def test_repr(self, mock_fetch, MockShift):
         game = Game("2000123456")
 

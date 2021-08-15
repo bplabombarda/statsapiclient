@@ -35,8 +35,8 @@ class Game:
     plays : Play
         A Play object created from the game's gata.
 
-    shifts : Shift
-        A Shift object created from the game's data.
+    shifts : Shifts
+        A Shifts object created from the game's data.
     """
     def __init__(self, game_pk):
         self.game_pk = game_pk

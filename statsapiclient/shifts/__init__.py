@@ -32,4 +32,4 @@ class Shifts:
         return ShiftReportParser(raw_html).parse()
 
     def __repr__(self):
-        return f"<Shift full_key={self.game_pk}>"
+        return f"<Shifts full_key={self.game_pk}>"
