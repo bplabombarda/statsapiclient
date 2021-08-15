@@ -44,10 +44,13 @@ class Game:
         self.game_pk = game_pk
         self.endpoint = f"api/v1/game/{game_pk}/feed/live"
         self.json = fetch_json(self.endpoint)
-        self.box_score = self.__build_box_score()
-        self.line_score = self.__build_line_score()
-        self.plays = self.__build_plays()
-        self.shifts = Shift(game_pk)
+        self.type = self.json["gameData"]["game"]["type"]
+
+        if self.type in ("R", "P"):
+            self.box_score = self.__build_box_score()
+            self.line_score = self.__build_line_score()
+            self.plays = self.__build_plays()
+            self.shifts = Shift(game_pk)
 
     def __repr__(self):
         return f"<Game game_pk={self.game_pk}>"

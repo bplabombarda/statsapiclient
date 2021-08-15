@@ -64,7 +64,7 @@ class Play:
 
     def get_penalty_plays(self):
         """Gets a list of penalty plays.
-        
+
         Returns
         -------
         list

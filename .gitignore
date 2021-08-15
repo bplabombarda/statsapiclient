@@ -76,5 +76,8 @@ venv.bak/
 # JetBrains
 .idea
 
+# MacOS
+.DS_Store
+
 # Do Not Ignore
 !.keep

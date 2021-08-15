@@ -18,7 +18,7 @@ class LineScore:
         String representation of the current period.
 
     current_period_time_remainind : str
-        String representation of the time remaining in 
+        String representation of the time remaining in
         the current period.
 
     has_shootout : book
