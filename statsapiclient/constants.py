@@ -1,4 +1,4 @@
-# flake8: noqa
+# pylint: skip-file
 
 API_HOST = "https://statsapi.web.nhl.com"
 NHL_HOST = "http://www.nhl.com"

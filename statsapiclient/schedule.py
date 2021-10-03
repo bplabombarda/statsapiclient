@@ -28,5 +28,25 @@ class Schedule:
         self.params["startDate"] = start_date
         self.params["endDate"] = end_date if end_date else start_date
 
+        self.games = self.get_games()
+
+    def get_date_range(self):
+        """Gets the date range for the schedule object.
+
+        Returns:
+            tuple: a tuple of two date strings
+        """
+        start_date = self.params["startDate"]
+        end_date = self.params["endtDate"]
+
+        return (start_date, end_date)
+
+    def get_games(self):
+        """Gets games for the objects date range.
+
+        Returns:
+            list: a list of game dicts
+        """
         json = fetch_json(endpoint=self.endpoint, params=self.params)
-        self.games = [game for date in json["dates"] for game in date["games"]]
+
+        return [game for date in json["dates"] for game in date["games"]]

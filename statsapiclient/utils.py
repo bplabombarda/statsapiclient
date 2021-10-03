@@ -11,97 +11,88 @@ from statsapiclient.constants import (
 )
 
 
-def create_request(url, params={}):
+def create_request(url, params=None):
     """Generic request function.
 
-    Parameters
-    ----------
-    url : str
-        The URL to which the request will be sent.
-    params : dict
-        Query parameters in dict form.
+    Args
+        url (str): The URL to which the request will be sent.
+        params (dict): Query parameters in dict form.
 
-    Returns
-    -------
-    response : obj
-        Response object.
+    Returns:
+        response (obj): Response object.
 
     Raises
-    ------
-    HTTPError: if requests does not return 200.`
+        HTTPError: if requests does not return 200.
     """
     try:
-        response = get(url, params=params, headers=dict(HEADERS))
+        response = get(
+            url=url,
+            headers=dict(HEADERS),
+            params=params if params else {},
+        )
         response.raise_for_status()
 
         return response
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def fetch_html(endpoint, params=None):
     """Helper function to fetch JSON data.
 
-    Parameters
-    ----------
-    endpoint : str
-        The target resource endpoint.
-    params : dict
-        Query parameters in dict form.
+    Args:
+        endpoint (str): The target resource endpoint.
+        params (dict): Query parameters in dict form.
 
-    Returns
-    -------
-    html : str
-        Web page text source at reqeusted URL.
+    Returns:
+        html (str): Web page text source at reqeusted URL.
 
-    Raises
-    ------
-    HTTPError: if requests does not return 200.`
+    Raises:
+        HTTPError: if requests does not return 200.`
     """
     try:
         url = f"{NHL_HOST}/{endpoint}"
         response = create_request(url, params)
 
         return response.text
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def fetch_json(endpoint, params=None):
     """Helper function to fetch JSON data.
 
-    Parameters
-    ----------
-    endpoint : str
-        The target resource endpoint.
-    params : dict
-        Query parameters in dict form.
+    Args:
+        endpoint (str): The target resource endpoint.
+        params (dict): Query parameters in dict form.
 
-    Returns
-    -------
-    json : dict
-        Payload for selected API call.
+    Returns:
+        json (dict): Payload for selected API call.
 
-    Raises
-    ------
-    HTTPError: if requests does not return 200.`
+    Raises:
+        HTTPError: if requests does not return 200.`
     """
     try:
         url = f"{API_HOST}/{endpoint}"
         response = create_request(url, params)
 
         return response.json()
-    except HTTPError:
-        raise HTTPError
+    except HTTPError as err:
+        raise HTTPError from err
 
 
 def validate_date(date):
-    """Validates that a date meets the specified format."""
+    """Validates that a date meets the specified format.
+
+    Args:
+        date (str): A YYYY-MM-DD formatted date string.
+    """
     try:
         datetime.strptime(date, SCHEDULE_DATE_FORMAT.get('format'))
+
         return True
-    except ValueError:
+    except ValueError as err:
         format_display = SCHEDULE_DATE_FORMAT.get('display')
 
         raise ValueError(
-            f"Incorrect date format, should be {format_display}")
+            f"Incorrect date format, should be {format_display}") from err
