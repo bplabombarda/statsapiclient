@@ -14,8 +14,11 @@ class Team:
         self.data = []
 
         for team_id in (list(range(0, 110)) + [5524, 5814, 5844, 7202, 7460, 7461]):
-            res = fetch_json(f"{self.endpoint}/{team_id}")
-            teams = res.json().get("teams", ())
+            try:
+                res = fetch_json(f"{self.endpoint}/{team_id}")
+                teams = res.get("teams", ())
+            except:
+                continue
 
             self.data += teams
 
