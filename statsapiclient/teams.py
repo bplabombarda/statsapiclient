@@ -1,7 +1,7 @@
 """This class allows retrieval of active teams by conference,
 division, or all active teams."""
 
-from .utils import fetch_json
+from .utils import HTTPError, fetch_json
 
 
 class Team:
@@ -17,7 +17,7 @@ class Team:
             try:
                 res = fetch_json(f"{self.endpoint}/{team_id}")
                 teams = res.get("teams", ())
-            except:
+            except HTTPError:
                 continue
 
             self.data += teams
