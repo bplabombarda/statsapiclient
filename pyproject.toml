@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "statsapiclient"
-version = "0.2.1"
+name = "nhl-stats-api"
+version = "0.3.0"
 description = "A wrapper around the NHL’s JSON API."
 homepage="https://github.com/bplabombarda/statsapiclient"
 repository="https://github.com/bplabombarda/statsapiclient"
@@ -24,16 +24,16 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-beautifulsoup4 = "^4.8.2"
-requests = "^2.22"
+beautifulsoup4 = "^4.10.0"
+requests = "^2.26"
 
 [tool.poetry.dev-dependencies]
-pdoc3 = "^0.8.4"
-pylint = "^2.5.3"
-pytest = "^3.0"
-pytest-cov = "^2.8"
-tox = "^3.19.0"
-twine = "^1.13"
+pdoc3 = "^0.10.0"
+pylint = "^2.12.2"
+pytest = "^4.6"
+pytest-cov = "^3.0"
+tox = "^3.24.4"
+twine = "^1.15"
 
 [build-system]
 requires = ["poetry>=0.12"]
