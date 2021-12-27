@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "nhl-stats-api"
+name = "statsapiclient"
 version = "0.3.0"
 description = "A wrapper around the NHL’s JSON API."
 homepage="https://github.com/bplabombarda/statsapiclient"

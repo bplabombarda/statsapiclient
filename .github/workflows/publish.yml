@@ -1,23 +1,97 @@
-# name: Publish
+name: Publish
 
-# on: [push]
+on: [push, release]
 
-# jobs:
+jobs:
+  build:
+    runs-on: ubuntu-18.04
 
-#   build:
+    strategy:
+      matrix:
+        python-version: [3.9]
+        poetry-version: [1.1.12]
 
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: [3.7, 3.8]
+    steps:
+      - uses: actions/checkout@v2
 
-#     steps:
-#     - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-#     - name: Set up Python ${{ matrix.python-version }}
-#       uses: actions/setup-python@v2
-#       with:
-#         python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
 
-#     - name: Display Python version
-#       run: python -c "import sys; print(sys.version)"
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.4
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pip-dependencies
+        with:
+          path: ~/.pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: poetry install
+
+      - name: Run linter
+        run: poetry run pylint statsapiclient/
+
+      - name: Run unit tests
+        run: poetry run pytest
+
+      - name: Build
+        run: poetry build
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: poetry-build
+          path: dist/
+
+  publish-test:
+    needs: build
+
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+        poetry-version: [1.1.12]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.4
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: poetry-build
+          path: dist/
+
+      - name: Configure poetry
+        run: poetry config repositories.test https://test.pypi.org/legacy/
+
+      - name: Publish
+        run: poetry publish -r test --username "${TEST_PYPI_USERNAME}" --password "${TEST_PYPI_PASSWORD}" --no-interaction
+        env:
+          TEST_PYPI_USERNAME: ${{ secrets.TEST_PYPI_USERNAME }}
+          TEST_PYPI_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
