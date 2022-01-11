@@ -5,8 +5,9 @@ on: [pull_request]
 jobs:
   test:
     name: Test
-    uses: bplabombarda/statsapiclient/.github/workflows/_test.yml@main
+    uses: bplabombarda/statsapiclient/.github/workflows/_test.yml@github-actions
 
   build:
     name: Build
-    uses: bplabombarda/statsapiclient/.github/workflows/_build.yml@main
+    needs: test
+    uses: bplabombarda/statsapiclient/.github/workflows/_build.yml@github-actions
