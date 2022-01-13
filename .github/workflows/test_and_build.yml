@@ -1,0 +1,12 @@
+name: Publish
+
+on: [pull_request]
+
+jobs:
+  test:
+    name: Test
+    uses: bplabombarda/statsapiclient/.github/workflows/_test.yml@main
+  build:
+    name: Build
+    needs: test
+    uses: bplabombarda/statsapiclient/.github/workflows/_build.yml@main

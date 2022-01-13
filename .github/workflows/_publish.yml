@@ -1,0 +1,48 @@
+name: Publish
+
+on:
+  workflow_call:
+    inputs:
+      pypi_url:
+        required: true
+        type: string
+    secrets:
+      pypi_username:
+        required: true
+      pypi_password:
+        required: true
+
+jobs:
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.4
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: poetry-build
+          path: dist/
+
+      - name: Configure poetry
+        run: poetry config repositories.test "${PYPI_URL}"
+        with:
+          PYPI_URL: ${{ inputs.pypi_url }}
+
+      - name: Publish
+        run: poetry publish -r test --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+        with:
+          PYPI_USERNAME: ${{ secrets.pypi_username }}
+          PYPI_PASSWORD: ${{ secrets.pypi_password }}
