@@ -1,6 +1,9 @@
 name: Publish
 
-on: [release]
+on:
+  release:
+    types:
+      - created
 
 jobs:
   test:
@@ -9,22 +12,50 @@ jobs:
 
   build:
     name: Build
+    needs: test
     uses: bplabombarda/statsapiclient/.github/workflows/_build.yml@main
 
-  publish-test:
-    name: Publish to test.pypi.org
-    needs: build
-    environment:
-      name: test
-    uses: bplabombarda/statsapiclient/.github/workflows/_publish.yml@main
-    with:
-      pypi_url: https://test.pypi.org/legacy/
-
   publish:
-    name: Publish to pypi.org
-    needs: publish-test
-    environment:
-      name: production
-    uses: bplabombarda/statsapiclient/.github/workflows/_publish.yml@main
-    with:
-      pypi_url: https://pypi.org/legacy/
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.1.4
+        with:
+          poetry-version: 1.1.12
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: poetry-build
+          path: dist/
+
+      - name: Configure test pypi repository
+        run: poetry config repositories.test https://test.pypi.org/legacy/
+
+      - name: Publish Test
+        run: poetry publish -r test --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+        env:
+          PYPI_USERNAME: ${{ secrets.test_pypi_username }}
+          PYPI_PASSWORD: ${{ secrets.test_pypi_password }}
+
+      - name: Configure pypi repository
+        run: poetry config repositories.test https://pypi.org/legacy/
+
+      - name: Publish
+        run: poetry publish -r test --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+        env:
+          PYPI_USERNAME: ${{ secrets.pypi_username }}
+          PYPI_PASSWORD: ${{ secrets.pypi_password }}
