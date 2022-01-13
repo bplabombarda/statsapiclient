@@ -1,0 +1,30 @@
+name: Publish
+
+on: [release]
+
+jobs:
+  test:
+    name: Test
+    uses: bplabombarda/statsapiclient/.github/workflows/_test.yml@main
+
+  build:
+    name: Build
+    uses: bplabombarda/statsapiclient/.github/workflows/_build.yml@main
+
+  publish-test:
+    name: Publish to test.pypi.org
+    needs: build
+    environment:
+      name: test
+    uses: bplabombarda/statsapiclient/.github/workflows/_publish.yml@main
+    with:
+      pypi_url: https://test.pypi.org/legacy/
+
+  publish:
+    name: Publish to pypi.org
+    needs: publish-test
+    environment:
+      name: production
+    uses: bplabombarda/statsapiclient/.github/workflows/_publish.yml@main
+    with:
+      pypi_url: https://pypi.org/legacy/
